@@ -94,9 +94,9 @@ export function FinanceTracker() {
         <Tabs defaultValue="dashboard" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="add">Add Transaction</TabsTrigger>
             <TabsTrigger value="budgets">Budgets</TabsTrigger>
             <TabsTrigger value="recurring">Recurring</TabsTrigger>
-            <TabsTrigger value="add">Add Transaction</TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="space-y-6">
