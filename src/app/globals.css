@@ -55,20 +55,20 @@
   --radius: 0.75rem;
   /* Clean white background */
   --background: 255 255 255;
-  --foreground: 18 18 22;
+  --foreground: 255 255 255;
   /* Light silver card shades */
   --card: 248 248 250;
-  --card-foreground: 18 18 22;
+  --card-foreground: 255 255 255;
   /* Light platinum accents */
   --popover: 255 255 255;
-  --popover-foreground: 18 18 22;
+  --popover-foreground: 255 255 255;
   /* Platinum for selections/buttons */
   --primary: 120 120 135;
   --primary-foreground: 255 255 255;
   --secondary: 240 240 245;
-  --secondary-foreground: 18 18 22;
+  --secondary-foreground: 255 255 255;
   --muted: 245 245 248;
-  --muted-foreground: 100 100 115;
+  --muted-foreground: 220 220 230;
   --accent: 140 140 155;
   --accent-foreground: 255 255 255;
   --destructive: 220 38 38;
@@ -82,11 +82,11 @@
   --chart-4: 100 100 120;
   --chart-5: 130 130 150;
   --sidebar: 248 248 250;
-  --sidebar-foreground: 18 18 22;
+  --sidebar-foreground: 255 255 255;
   --sidebar-primary: 120 120 135;
   --sidebar-primary-foreground: 255 255 255;
   --sidebar-accent: 240 240 245;
-  --sidebar-accent-foreground: 18 18 22;
+  --sidebar-accent-foreground: 255 255 255;
   --sidebar-border: 220 220 230;
   --sidebar-ring: 140 140 155;
 }

@@ -92,19 +92,19 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
       {hasAlerts && (
         <Alert variant="destructive" className="border-destructive/50">
           <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="text-foreground">
+          <AlertDescription className="text-white">
             You have {budgetStatuses.filter((b) => b.status === 'danger').length} budget(s) exceeded and{' '}
             {budgetStatuses.filter((b) => b.status === 'warning').length} budget(s) near limit this month.
           </AlertDescription>
         </Alert>
       )}
 
-      {/* Add Budget Form */}
-      <Card className="p-4 silver-metallic">
-        <h3 className="text-lg font-semibold mb-4 text-foreground">Add Budget</h3>
+      {/* Add Budget Form - Platinum */}
+      <Card className="p-4 platinum-luxury border-primary/40">
+        <h3 className="text-lg font-semibold mb-4 text-white">Add Budget</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-full border-primary/30">
+            <SelectTrigger className="w-full border-primary/30 text-white">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent className="bg-popover border-primary/40">
@@ -128,7 +128,7 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
             placeholder="Budget limit"
             value={budgetAmount}
             onChange={(e) => setBudgetAmount(e.target.value)}
-            className="border-primary/30"
+            className="border-primary/30 text-white"
           />
 
           <Button onClick={handleAddBudget} disabled={!selectedCategory || !budgetAmount} className="platinum-button">
@@ -140,20 +140,20 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
 
       {/* Budget List */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-foreground">Current Month Budgets</h3>
+        <h3 className="text-lg font-semibold text-white">Current Month Budgets</h3>
         {budgetStatuses.length === 0 ? (
-          <Card className="p-8 text-center silver-metallic">
-            <p className="text-muted-foreground">No budgets set. Add a budget to track your spending.</p>
+          <Card className="p-8 text-center platinum-luxury border-primary/40">
+            <p className="text-white/50">No budgets set. Add a budget to track your spending.</p>
           </Card>
         ) : (
           <div className="space-y-3">
             {budgetStatuses.map((budget) => (
-              <Card key={budget.category} className="p-4 silver-metallic">
+              <Card key={budget.category} className="p-4 platinum-luxury border-primary/40">
                 <div className="space-y-3">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <h4 className="font-semibold text-foreground">{budget.category}</h4>
+                        <h4 className="font-semibold text-white">{budget.category}</h4>
                         {budget.status === 'danger' && (
                           <Badge variant="destructive">Over Budget</Badge>
                         )}
@@ -162,10 +162,10 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
                         )}
                       </div>
                       <div className="flex items-baseline gap-2 mt-1">
-                        <span className="text-2xl font-bold text-foreground">
+                        <span className="text-2xl font-bold text-white">
                           ${budget.spent.toFixed(2)}
                         </span>
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-sm text-white/60">
                           / ${budget.limit.toFixed(2)}
                         </span>
                       </div>
@@ -192,7 +192,7 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
                       }
                     />
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">
+                      <span className="text-white/60">
                         {budget.percentage.toFixed(1)}% used
                       </span>
                       <span className={budget.remaining >= 0 ? 'text-green-400' : 'text-red-400'}>

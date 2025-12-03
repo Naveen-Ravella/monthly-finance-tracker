@@ -83,10 +83,10 @@ export function FinanceTracker() {
       <div className="container mx-auto py-8 px-4 max-w-7xl">
         {/* Header - Platinum Styling */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
             Personal Finance Tracker
           </h1>
-          <p className="text-foreground/70 tracking-wide">
+          <p className="text-white/70 tracking-wide">
             Track your income and expenses, manage budgets, and visualize your financial health
           </p>
         </div>
@@ -96,25 +96,25 @@ export function FinanceTracker() {
           <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid bg-card/50 border-2 border-primary/30 p-1">
             <TabsTrigger 
               value="dashboard"
-              className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all"
+              className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all text-white"
             >
               Dashboard
             </TabsTrigger>
             <TabsTrigger 
               value="add"
-              className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all"
+              className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all text-white"
             >
               Add Transaction
             </TabsTrigger>
             <TabsTrigger 
               value="budgets"
-              className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all"
+              className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all text-white"
             >
               Budgets
             </TabsTrigger>
             <TabsTrigger 
               value="recurring"
-              className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all"
+              className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all text-white"
             >
               Recurring
             </TabsTrigger>
@@ -138,8 +138,8 @@ export function FinanceTracker() {
 
           <TabsContent value="recurring" className="space-y-6">
             <div className="grid gap-6 lg:grid-cols-2">
-              <Card className="p-6 silver-metallic border-primary/40">
-                <h2 className="text-2xl font-bold mb-6 tracking-tight text-foreground">Create Recurring Transaction</h2>
+              <Card className="p-6 platinum-luxury border-primary/40">
+                <h2 className="text-2xl font-bold mb-6 tracking-tight text-white">Create Recurring Transaction</h2>
                 <RecurringTransactionForm onAddRecurring={handleAddRecurring} />
               </Card>
               <div>
@@ -153,8 +153,8 @@ export function FinanceTracker() {
           </TabsContent>
 
           <TabsContent value="add" className="space-y-6">
-            <Card className="p-6 max-w-2xl mx-auto silver-metallic border-primary/40">
-              <h2 className="text-2xl font-bold mb-6 tracking-tight text-foreground">Add New Transaction</h2>
+            <Card className="p-6 max-w-2xl mx-auto platinum-luxury border-primary/40">
+              <h2 className="text-2xl font-bold mb-6 tracking-tight text-white">Add New Transaction</h2>
               <TransactionForm onAddTransaction={handleAddTransaction} />
             </Card>
           </TabsContent>

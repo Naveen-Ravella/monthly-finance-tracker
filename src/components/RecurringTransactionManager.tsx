@@ -26,22 +26,22 @@ export function RecurringTransactionManager({
   return (
     <div className="space-y-4">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-2">Recurring Transactions</h2>
-        <p className="text-muted-foreground">
+        <h2 className="text-2xl font-bold mb-2 text-white">Recurring Transactions</h2>
+        <p className="text-white/60">
           Manage your recurring income and expenses. Transactions will be automatically created based on the schedule.
         </p>
       </div>
 
       {recurringTransactions.length === 0 ? (
-        <Card className="p-8 text-center">
-          <p className="text-muted-foreground">
+        <Card className="p-8 text-center platinum-luxury border-primary/40">
+          <p className="text-white/50">
             No recurring transactions yet. Create one to automatically track regular income or expenses.
           </p>
         </Card>
       ) : (
         <div className="grid gap-4">
           {recurringTransactions.map((recurring) => (
-            <Card key={recurring.id} className="p-4">
+            <Card key={recurring.id} className="p-4 platinum-luxury border-primary/40">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 space-y-2">
                   {/* Header with Type Badge */}
@@ -52,38 +52,38 @@ export function RecurringTransactionManager({
                     >
                       {recurring.type === 'income' ? 'Income' : 'Expense'}
                     </Badge>
-                    <Badge variant="outline">{recurring.category}</Badge>
-                    <Badge variant="secondary">{getFrequencyLabel(recurring.frequency)}</Badge>
+                    <Badge variant="outline" className="text-white border-primary/30">{recurring.category}</Badge>
+                    <Badge variant="secondary" className="bg-primary/20 text-white">{getFrequencyLabel(recurring.frequency)}</Badge>
                     {!recurring.isActive && (
-                      <Badge variant="outline" className="bg-muted">Paused</Badge>
+                      <Badge variant="outline" className="bg-muted text-white">Paused</Badge>
                     )}
                   </div>
 
                   {/* Amount and Description */}
                   <div>
-                    <h3 className="font-semibold text-lg">
+                    <h3 className="font-semibold text-lg text-white">
                       {recurring.description}
                     </h3>
                     <p className={`text-2xl font-bold ${
-                      recurring.type === 'income' ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'
+                      recurring.type === 'income' ? 'text-green-400' : 'text-red-400'
                     }`}>
                       ${recurring.amount.toFixed(2)}
                     </p>
                   </div>
 
                   {/* Schedule Info */}
-                  <div className="text-sm text-muted-foreground space-y-1">
+                  <div className="text-sm text-white/60 space-y-1">
                     <p>
-                      <span className="font-medium">Starts:</span> {format(new Date(recurring.startDate), 'MMM d, yyyy')}
+                      <span className="font-medium text-white">Starts:</span> {format(new Date(recurring.startDate), 'MMM d, yyyy')}
                     </p>
                     {recurring.endDate && (
                       <p>
-                        <span className="font-medium">Ends:</span> {format(new Date(recurring.endDate), 'MMM d, yyyy')}
+                        <span className="font-medium text-white">Ends:</span> {format(new Date(recurring.endDate), 'MMM d, yyyy')}
                       </p>
                     )}
                     {recurring.lastGenerated && (
                       <p>
-                        <span className="font-medium">Last generated:</span> {format(new Date(recurring.lastGenerated), 'MMM d, yyyy')}
+                        <span className="font-medium text-white">Last generated:</span> {format(new Date(recurring.lastGenerated), 'MMM d, yyyy')}
                       </p>
                     )}
                   </div>
@@ -95,7 +95,7 @@ export function RecurringTransactionManager({
                     variant="outline"
                     size="sm"
                     onClick={() => onToggleActive(recurring.id)}
-                    className="gap-2"
+                    className="gap-2 text-white border-primary/30"
                   >
                     {recurring.isActive ? (
                       <>
