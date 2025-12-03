@@ -17,7 +17,7 @@ interface FinanceDashboardProps {
   onDeleteTransaction: (id: string) => void;
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D', '#FFC658', '#FF6B9D', '#C49FFF'];
+const COLORS = ['#A8A8B0', '#8C8C98', '#707080', '#5C5C68', '#888890', '#9C9CA8', '#B0B0B8', '#7C7C88', '#6C6C78'];
 
 type PeriodType = 'year' | 'month' | 'overall';
 type TransactionTypeFilter = 'all' | 'income' | 'expense';
@@ -203,23 +203,25 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
 
   return (
     <div className="space-y-6">
-      {/* Total Net Worth All Time - Prominent Card */}
-      <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-sm font-medium text-muted-foreground">Total Net Worth All Time</h3>
-          <Wallet className="h-6 w-6 text-primary" />
+      {/* Total Net Worth All Time - Prominent Card with Platinum Styling */}
+      <Card className="p-8 platinum-shine backdrop-blur-sm">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Net Worth</h3>
+          <Wallet className="h-7 w-7 text-foreground/70" />
         </div>
-        <p className={`text-4xl font-bold ${overallStats.netWorth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+        <p className={`text-5xl font-bold tracking-tight ${overallStats.netWorth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
           ${overallStats.netWorth.toFixed(2)}
         </p>
-        <p className="text-xs text-muted-foreground mt-1">Lifetime balance</p>
+        <p className="text-sm text-muted-foreground mt-2 font-light">Lifetime balance</p>
       </Card>
 
-      {/* Period Selector */}
-      <Card className="p-4">
-        <div className="flex items-center gap-4 mb-4">
-          <Calendar className="h-5 w-5 text-muted-foreground" />
-          <div className="grid grid-cols-3 gap-2 p-1 bg-muted rounded-lg flex-1 max-w-md">
+      {/* All Filters in Single Line */}
+      <Card className="p-5 silver-border backdrop-blur-sm">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
+          {/* Period Selectors */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <Calendar className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+            
             {/* Year Dropdown */}
             <Select 
               value={selectedYear.toString()} 
@@ -229,12 +231,10 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
               }}
             >
               <SelectTrigger className={cn(
-                "w-full h-9 bg-background border-0",
-                periodType === 'year' && "bg-primary text-primary-foreground"
+                "w-[110px] h-9 bg-background/50 border-border/50",
+                periodType === 'year' && "bg-primary text-primary-foreground font-medium"
               )}>
-                <SelectValue>
-                  {selectedYear}
-                </SelectValue>
+                <SelectValue>{selectedYear}</SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {availableYears.length === 0 ? (
@@ -262,15 +262,15 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
               }}
             >
               <SelectTrigger className={cn(
-                "w-full h-9 bg-background border-0",
-                periodType === 'month' && "bg-primary text-primary-foreground"
+                "w-[130px] h-9 bg-background/50 border-border/50",
+                periodType === 'month' && "bg-primary text-primary-foreground font-medium"
               )}>
                 <SelectValue>
-                  {periodType === 'month' ? MONTHS[selectedMonth] : 'All'}
+                  {periodType === 'month' ? MONTHS[selectedMonth] : 'All Months'}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="all">All Months</SelectItem>
                 {MONTHS.map((month, index) => (
                   <SelectItem key={month} value={index.toString()}>
                     {month}
@@ -283,29 +283,30 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
             <button
               onClick={() => setPeriodType('overall')}
               className={cn(
-                "h-9 rounded-md text-sm font-medium transition-colors",
+                "h-9 px-4 rounded-md text-sm font-medium transition-all",
                 periodType === 'overall' 
-                  ? "bg-primary text-primary-foreground" 
-                  : "bg-background hover:bg-accent hover:text-accent-foreground"
+                  ? "bg-primary text-primary-foreground shadow-sm" 
+                  : "bg-background/50 hover:bg-accent hover:text-accent-foreground border border-border/50"
               )}
             >
               Overall
             </button>
           </div>
-          <span className="text-sm font-medium text-muted-foreground">{getPeriodLabel()}</span>
-        </div>
 
-        {/* Type and Category Filters */}
-        <div className="flex items-center gap-4">
-          <Filter className="h-5 w-5 text-muted-foreground" />
-          <div className="grid grid-cols-2 gap-2 flex-1 max-w-md">
+          {/* Divider */}
+          <div className="hidden lg:block h-8 w-px bg-border/50" />
+
+          {/* Type and Category Filters */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <Filter className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+            
             {/* Type Filter */}
             <Select value={typeFilter} onValueChange={handleTypeFilterChange}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-[120px] h-9 bg-background/50 border-border/50">
                 <SelectValue placeholder="Type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="all">All Types</SelectItem>
                 <SelectItem value="income">Income</SelectItem>
                 <SelectItem value="expense">Expenses</SelectItem>
               </SelectContent>
@@ -313,7 +314,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
 
             {/* Category Filter */}
             <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-[160px] h-9 bg-background/50 border-border/50">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
@@ -326,42 +327,49 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
               </SelectContent>
             </Select>
           </div>
+
+          {/* Period Label */}
+          <div className="ml-auto">
+            <span className="text-sm font-medium text-foreground/80 px-3 py-1.5 rounded-md bg-muted/50">
+              {getPeriodLabel()}
+            </span>
+          </div>
         </div>
       </Card>
 
-      {/* Overview Stats */}
+      {/* Overview Stats with Metallic Styling */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="p-6">
+        <Card className="p-6 silver-border backdrop-blur-sm hover:shadow-lg transition-shadow">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Net Worth</h3>
+            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Net Worth</h3>
             <Wallet className="h-5 w-5 text-muted-foreground" />
           </div>
           <p className={`text-3xl font-bold ${periodStats.netWorth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             ${periodStats.netWorth.toFixed(2)}
           </p>
-          <p className="text-xs text-muted-foreground mt-1">{getPeriodLabel()}</p>
+          <p className="text-xs text-muted-foreground mt-1 font-light">{getPeriodLabel()}</p>
         </Card>
 
-        <Card className="p-6">
+        <Card className="p-6 silver-border backdrop-blur-sm hover:shadow-lg transition-shadow">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Income</h3>
+            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Income</h3>
             <TrendingUp className="h-5 w-5 text-green-600" />
           </div>
           <p className="text-3xl font-bold text-green-600">
             ${periodStats.income.toFixed(2)}
           </p>
-          <p className="text-xs text-muted-foreground mt-1">{getPeriodLabel()}</p>
+          <p className="text-xs text-muted-foreground mt-1 font-light">{getPeriodLabel()}</p>
         </Card>
 
-        <Card className="p-6">
+        <Card className="p-6 silver-border backdrop-blur-sm hover:shadow-lg transition-shadow">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Expenses</h3>
+            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Expenses</h3>
             <TrendingDown className="h-5 w-5 text-red-600" />
           </div>
           <p className="text-3xl font-bold text-red-600">
             ${periodStats.expense.toFixed(2)}
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs text-muted-foreground mt-1 font-light">
             Savings rate: {overallStats.savingsRate.toFixed(1)}%
           </p>
         </Card>
@@ -369,10 +377,10 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
 
       {/* Expense Breakdown and Top Categories */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="p-6">
+        <Card className="p-6 silver-border backdrop-blur-sm">
           <div className="mb-4">
-            <h3 className="text-lg font-semibold">Expense Breakdown</h3>
-            <p className="text-sm text-muted-foreground">{getPeriodLabel()}</p>
+            <h3 className="text-lg font-semibold tracking-tight">Expense Breakdown</h3>
+            <p className="text-sm text-muted-foreground font-light">{getPeriodLabel()}</p>
           </div>
           
           {expenseBreakdown.length === 0 ? (
@@ -403,10 +411,10 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
         </Card>
 
         {/* Top Categories */}
-        <Card className="p-6">
+        <Card className="p-6 silver-border backdrop-blur-sm">
           <div className="mb-4">
-            <h3 className="text-lg font-semibold">Top Spending Categories</h3>
-            <p className="text-sm text-muted-foreground">{getPeriodLabel()}</p>
+            <h3 className="text-lg font-semibold tracking-tight">Top Spending Categories</h3>
+            <p className="text-sm text-muted-foreground font-light">{getPeriodLabel()}</p>
           </div>
           {expenseBreakdown.length === 0 ? (
             <p className="text-center text-muted-foreground py-4">No expenses recorded</p>
@@ -417,17 +425,17 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                 const percentage = (category.value / total) * 100;
 
                 return (
-                  <div key={category.name} className="flex items-center gap-4">
+                  <div key={category.name} className="flex items-center gap-4 p-2 rounded-md hover:bg-muted/50 transition-colors">
                     <div className="flex items-center gap-3 flex-1">
                       <div
-                        className="w-4 h-4 rounded"
+                        className="w-4 h-4 rounded shadow-sm"
                         style={{ backgroundColor: COLORS[index % COLORS.length] }}
                       />
                       <span className="font-medium">{category.name}</span>
                     </div>
                     <div className="text-right">
                       <p className="font-semibold">${category.value.toFixed(2)}</p>
-                      <p className="text-xs text-muted-foreground">{percentage.toFixed(1)}%</p>
+                      <p className="text-xs text-muted-foreground font-light">{percentage.toFixed(1)}%</p>
                     </div>
                   </div>
                 );
@@ -438,10 +446,10 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
       </div>
 
       {/* Transactions List */}
-      <Card className="p-6">
+      <Card className="p-6 silver-border backdrop-blur-sm">
         <div className="mb-4">
-          <h3 className="text-lg font-semibold">Recent Transactions</h3>
-          <p className="text-sm text-muted-foreground">
+          <h3 className="text-lg font-semibold tracking-tight">Recent Transactions</h3>
+          <p className="text-sm text-muted-foreground font-light">
             {getPeriodLabel()} • {filteredTransactionsForDisplay.length} transaction{filteredTransactionsForDisplay.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -456,7 +464,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
               const transactionDate = typeof transaction.date === 'string' ? parseISO(transaction.date) : transaction.date;
               
               return (
-                <Card key={transaction.id} className="p-4 hover:shadow-md transition-shadow">
+                <Card key={transaction.id} className="p-4 hover:shadow-md transition-all border-border/50 bg-card/50">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-3 flex-1">
                       {transaction.type === 'income' ? (
@@ -467,7 +475,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
                           <h4 className="font-semibold">{transaction.description}</h4>
-                          <Badge variant="secondary">{transaction.category}</Badge>
+                          <Badge variant="secondary" className="text-xs">{transaction.category}</Badge>
                         </div>
                         <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
                           <span className="flex items-center gap-1">
@@ -485,7 +493,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                         variant="ghost"
                         size="icon"
                         onClick={() => onDeleteTransaction(transaction.id)}
-                        className="text-destructive hover:text-destructive"
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
