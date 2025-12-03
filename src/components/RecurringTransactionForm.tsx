@@ -60,20 +60,20 @@ export function RecurringTransactionForm({ onAddRecurring }: RecurringTransactio
       {/* Type and Amount - Side by Side */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label>Transaction Type</Label>
+          <Label className="text-foreground">Transaction Type</Label>
           <Select value={type} onValueChange={(value) => setType(value as TransactionType)}>
-            <SelectTrigger>
+            <SelectTrigger className="border-primary/30">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="income">Income</SelectItem>
-              <SelectItem value="expense">Expense</SelectItem>
+            <SelectContent className="bg-popover border-primary/40">
+              <SelectItem value="income" className="cursor-pointer">Income</SelectItem>
+              <SelectItem value="expense" className="cursor-pointer">Expense</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="amount">Amount</Label>
+          <Label htmlFor="amount" className="text-foreground">Amount</Label>
           <Input
             id="amount"
             type="number"
@@ -82,6 +82,7 @@ export function RecurringTransactionForm({ onAddRecurring }: RecurringTransactio
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             required
+            className="border-primary/30"
           />
         </div>
       </div>
@@ -89,14 +90,14 @@ export function RecurringTransactionForm({ onAddRecurring }: RecurringTransactio
       {/* Category and Frequency - Side by Side */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label>Category</Label>
+          <Label className="text-foreground">Category</Label>
           <Select value={category} onValueChange={setCategory} required>
-            <SelectTrigger>
+            <SelectTrigger className="border-primary/30">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-popover border-primary/40">
               {categories.map((cat) => (
-                <SelectItem key={cat} value={cat}>
+                <SelectItem key={cat} value={cat} className="cursor-pointer">
                   {cat}
                 </SelectItem>
               ))}
@@ -105,16 +106,16 @@ export function RecurringTransactionForm({ onAddRecurring }: RecurringTransactio
         </div>
 
         <div className="space-y-2">
-          <Label>Repeat Frequency</Label>
+          <Label className="text-foreground">Repeat Frequency</Label>
           <Select value={frequency} onValueChange={(value) => setFrequency(value as RecurrenceFrequency)}>
-            <SelectTrigger>
+            <SelectTrigger className="border-primary/30">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="daily">Daily</SelectItem>
-              <SelectItem value="weekly">Weekly</SelectItem>
-              <SelectItem value="monthly">Monthly</SelectItem>
-              <SelectItem value="yearly">Yearly</SelectItem>
+            <SelectContent className="bg-popover border-primary/40">
+              <SelectItem value="daily" className="cursor-pointer">Daily</SelectItem>
+              <SelectItem value="weekly" className="cursor-pointer">Weekly</SelectItem>
+              <SelectItem value="monthly" className="cursor-pointer">Monthly</SelectItem>
+              <SelectItem value="yearly" className="cursor-pointer">Yearly</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -122,28 +123,29 @@ export function RecurringTransactionForm({ onAddRecurring }: RecurringTransactio
 
       {/* Description - Full Width */}
       <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description" className="text-foreground">Description</Label>
         <Input
           id="description"
           placeholder="e.g., Monthly Salary"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
+          className="border-primary/30"
         />
       </div>
 
       {/* Start Date and End Date - Side by Side */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label>Start Date</Label>
+          <Label className="text-foreground">Start Date</Label>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full justify-start text-left font-normal">
+              <Button variant="outline" className="w-full justify-start text-left font-normal border-primary/30">
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {format(startDate, 'PPP')}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
+            <PopoverContent className="w-auto p-0 bg-popover border-primary/40">
               <Calendar
                 mode="single"
                 selected={startDate}
@@ -161,21 +163,21 @@ export function RecurringTransactionForm({ onAddRecurring }: RecurringTransactio
               id="hasEndDate"
               checked={hasEndDate}
               onChange={(e) => setHasEndDate(e.target.checked)}
-              className="h-4 w-4 rounded border-border"
+              className="h-4 w-4 rounded border-primary/30"
             />
-            <Label htmlFor="hasEndDate" className="cursor-pointer">
+            <Label htmlFor="hasEndDate" className="cursor-pointer text-foreground">
               Set end date (optional)
             </Label>
           </div>
           {hasEndDate && (
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-start text-left font-normal">
+                <Button variant="outline" className="w-full justify-start text-left font-normal border-primary/30">
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {endDate ? format(endDate, 'PPP') : 'Pick end date'}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
+              <PopoverContent className="w-auto p-0 bg-popover border-primary/40">
                 <Calendar
                   mode="single"
                   selected={endDate}
@@ -189,7 +191,7 @@ export function RecurringTransactionForm({ onAddRecurring }: RecurringTransactio
         </div>
       </div>
 
-      <Button type="submit" className="w-full">
+      <Button type="submit" className="w-full platinum-button">
         Create Recurring Transaction
       </Button>
     </form>

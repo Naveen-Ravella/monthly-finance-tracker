@@ -90,9 +90,9 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
     <div className="space-y-6">
       {/* Alert Banner */}
       {hasAlerts && (
-        <Alert variant="destructive">
+        <Alert variant="destructive" className="border-destructive/50">
           <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
+          <AlertDescription className="text-foreground">
             You have {budgetStatuses.filter((b) => b.status === 'danger').length} budget(s) exceeded and{' '}
             {budgetStatuses.filter((b) => b.status === 'warning').length} budget(s) near limit this month.
           </AlertDescription>
@@ -100,21 +100,21 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
       )}
 
       {/* Add Budget Form */}
-      <Card className="p-4">
-        <h3 className="text-lg font-semibold mb-4">Add Budget</h3>
+      <Card className="p-4 silver-metallic">
+        <h3 className="text-lg font-semibold mb-4 text-foreground">Add Budget</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full border-primary/30">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-popover border-primary/40">
               {availableCategories.length === 0 ? (
                 <SelectItem value="none" disabled>
                   All categories have budgets
                 </SelectItem>
               ) : (
                 availableCategories.map((category) => (
-                  <SelectItem key={category} value={category}>
+                  <SelectItem key={category} value={category} className="cursor-pointer">
                     {category}
                   </SelectItem>
                 ))
@@ -128,9 +128,10 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
             placeholder="Budget limit"
             value={budgetAmount}
             onChange={(e) => setBudgetAmount(e.target.value)}
+            className="border-primary/30"
           />
 
-          <Button onClick={handleAddBudget} disabled={!selectedCategory || !budgetAmount}>
+          <Button onClick={handleAddBudget} disabled={!selectedCategory || !budgetAmount} className="platinum-button">
             <PlusCircle className="mr-2 h-4 w-4" />
             Add Budget
           </Button>
@@ -139,20 +140,20 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
 
       {/* Budget List */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Current Month Budgets</h3>
+        <h3 className="text-lg font-semibold text-foreground">Current Month Budgets</h3>
         {budgetStatuses.length === 0 ? (
-          <Card className="p-8 text-center">
+          <Card className="p-8 text-center silver-metallic">
             <p className="text-muted-foreground">No budgets set. Add a budget to track your spending.</p>
           </Card>
         ) : (
           <div className="space-y-3">
             {budgetStatuses.map((budget) => (
-              <Card key={budget.category} className="p-4">
+              <Card key={budget.category} className="p-4 silver-metallic">
                 <div className="space-y-3">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <h4 className="font-semibold">{budget.category}</h4>
+                        <h4 className="font-semibold text-foreground">{budget.category}</h4>
                         {budget.status === 'danger' && (
                           <Badge variant="destructive">Over Budget</Badge>
                         )}
@@ -161,7 +162,7 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
                         )}
                       </div>
                       <div className="flex items-baseline gap-2 mt-1">
-                        <span className="text-2xl font-bold">
+                        <span className="text-2xl font-bold text-foreground">
                           ${budget.spent.toFixed(2)}
                         </span>
                         <span className="text-sm text-muted-foreground">
@@ -194,7 +195,7 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
                       <span className="text-muted-foreground">
                         {budget.percentage.toFixed(1)}% used
                       </span>
-                      <span className={budget.remaining >= 0 ? 'text-green-600' : 'text-red-600'}>
+                      <span className={budget.remaining >= 0 ? 'text-green-400' : 'text-red-400'}>
                         {budget.remaining >= 0 ? `$${budget.remaining.toFixed(2)} remaining` : `$${Math.abs(budget.remaining).toFixed(2)} over`}
                       </span>
                     </div>

@@ -74,16 +74,16 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
             name="type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Type</FormLabel>
+                <FormLabel className="text-foreground">Type</FormLabel>
                 <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full border-primary/30">
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
-                    <SelectItem value="income">Income</SelectItem>
-                    <SelectItem value="expense">Expense</SelectItem>
+                  <SelectContent className="bg-popover border-primary/40">
+                    <SelectItem value="income" className="cursor-pointer">Income</SelectItem>
+                    <SelectItem value="expense" className="cursor-pointer">Expense</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -96,9 +96,9 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
             name="amount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Amount</FormLabel>
+                <FormLabel className="text-foreground">Amount</FormLabel>
                 <FormControl>
-                  <Input type="number" step="0.01" placeholder="0.00" {...field} />
+                  <Input type="number" step="0.01" placeholder="0.00" {...field} className="border-primary/30" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -110,16 +110,16 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
             name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Category</FormLabel>
+                <FormLabel className="text-foreground">Category</FormLabel>
                 <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full border-primary/30">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="bg-popover border-primary/40">
                     {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
+                      <SelectItem key={category} value={category} className="cursor-pointer">
                         {category}
                       </SelectItem>
                     ))}
@@ -135,9 +135,9 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
             name="date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Date</FormLabel>
+                <FormLabel className="text-foreground">Date</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <Input type="date" {...field} className="border-primary/30" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -150,16 +150,16 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel className="text-foreground">Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="Enter transaction details..." {...field} />
+                <Textarea placeholder="Enter transaction details..." {...field} className="border-primary/30" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full platinum-button">
           <PlusCircle className="mr-2 h-4 w-4" />
           Add Transaction
         </Button>

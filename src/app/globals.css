@@ -55,24 +55,24 @@
   --radius: 0.75rem;
   /* Dark metallic background */
   --background: 18 18 22;
-  --foreground: 229 229 234;
+  --foreground: 240 240 245;
   /* Silver card shades */
   --card: 35 35 42;
-  --card-foreground: 229 229 234;
+  --card-foreground: 240 240 245;
   /* Platinum accents */
   --popover: 40 40 48;
-  --popover-foreground: 229 229 234;
+  --popover-foreground: 245 245 250;
   /* Platinum for selections/buttons */
   --primary: 200 200 210;
   --primary-foreground: 18 18 22;
   --secondary: 50 50 60;
-  --secondary-foreground: 229 229 234;
+  --secondary-foreground: 240 240 245;
   --muted: 45 45 54;
-  --muted-foreground: 160 160 170;
+  --muted-foreground: 180 180 190;
   --accent: 180 180 195;
   --accent-foreground: 18 18 22;
   --destructive: 220 38 38;
-  --border: 60 60 70;
+  --border: 100 100 120;
   --input: 50 50 60;
   --ring: 180 180 195;
   /* Metallic gray chart colors */
@@ -82,32 +82,32 @@
   --chart-4: 180 180 195;
   --chart-5: 150 150 170;
   --sidebar: 25 25 32;
-  --sidebar-foreground: 229 229 234;
+  --sidebar-foreground: 240 240 245;
   --sidebar-primary: 200 200 210;
   --sidebar-primary-foreground: 18 18 22;
   --sidebar-accent: 50 50 60;
-  --sidebar-accent-foreground: 229 229 234;
-  --sidebar-border: 60 60 70;
+  --sidebar-accent-foreground: 240 240 245;
+  --sidebar-border: 100 100 120;
   --sidebar-ring: 180 180 195;
 }
 
 .dark {
   --background: 18 18 22;
-  --foreground: 229 229 234;
+  --foreground: 240 240 245;
   --card: 35 35 42;
-  --card-foreground: 229 229 234;
+  --card-foreground: 240 240 245;
   --popover: 40 40 48;
-  --popover-foreground: 229 229 234;
+  --popover-foreground: 245 245 250;
   --primary: 200 200 210;
   --primary-foreground: 18 18 22;
   --secondary: 50 50 60;
-  --secondary-foreground: 229 229 234;
+  --secondary-foreground: 240 240 245;
   --muted: 45 45 54;
-  --muted-foreground: 160 160 170;
+  --muted-foreground: 180 180 190;
   --accent: 180 180 195;
   --accent-foreground: 18 18 22;
   --destructive: 239 68 68;
-  --border: 60 60 70;
+  --border: 100 100 120;
   --input: 50 50 60;
   --ring: 180 180 195;
   --chart-1: 192 192 200;
@@ -116,12 +116,12 @@
   --chart-4: 180 180 195;
   --chart-5: 150 150 170;
   --sidebar: 25 25 32;
-  --sidebar-foreground: 229 229 234;
+  --sidebar-foreground: 240 240 245;
   --sidebar-primary: 200 200 210;
   --sidebar-primary-foreground: 18 18 22;
   --sidebar-accent: 50 50 60;
-  --sidebar-accent-foreground: 229 229 234;
-  --sidebar-border: 60 60 70;
+  --sidebar-accent-foreground: 240 240 245;
+  --sidebar-border: 100 100 120;
   --sidebar-ring: 180 180 195;
 }
 
@@ -136,14 +136,14 @@
   /* Luxurious platinum shine for net worth card */
   .platinum-luxury {
     background: linear-gradient(135deg, rgba(200, 200, 210, 0.15) 0%, rgba(180, 180, 195, 0.08) 50%, rgba(200, 200, 210, 0.15) 100%);
-    border: 1px solid rgba(200, 200, 210, 0.4);
+    border: 2px solid rgba(200, 200, 210, 0.5);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   
   /* Silver metallic boxes */
   .silver-metallic {
     background: linear-gradient(135deg, rgba(160, 160, 175, 0.12) 0%, rgba(140, 140, 155, 0.06) 100%);
-    border: 1px solid rgba(160, 160, 175, 0.25);
+    border: 1.5px solid rgba(160, 160, 175, 0.4);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
   
@@ -153,11 +153,28 @@
     color: rgb(18, 18, 22);
     border: 1px solid rgba(220, 220, 230, 0.3);
     box-shadow: 0 2px 8px rgba(200, 200, 210, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-weight: 600;
   }
   
   /* Dark metallic gradient background */
   .metallic-dark-bg {
     background: linear-gradient(180deg, rgb(18, 18, 22) 0%, rgb(25, 25, 32) 50%, rgb(18, 18, 22) 100%);
+  }
+  
+  /* Platinum button hover effect */
+  .platinum-button {
+    background: linear-gradient(135deg, rgb(200, 200, 210) 0%, rgb(180, 180, 195) 100%);
+    color: rgb(18, 18, 22);
+    border: 1px solid rgba(220, 220, 230, 0.4);
+    box-shadow: 0 2px 8px rgba(200, 200, 210, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  
+  .platinum-button:hover {
+    background: linear-gradient(135deg, rgb(210, 210, 220) 0%, rgb(190, 190, 205) 100%);
+    box-shadow: 0 4px 12px rgba(200, 200, 210, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
   }
 }
 
