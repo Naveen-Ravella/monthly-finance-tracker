@@ -163,51 +163,61 @@
     background:
 
     /* --- STRONG CURVED STROKES LAYER 1 --- */ 
-    radial-gradient(ellipse at 20% 25%, rgba(255,255,255,0.12), transparent 65%), 
-    radial-gradient(ellipse at 80% 30%, rgba(220,220,220,0.10), transparent 65%), 
+    radial-gradient(ellipse 300px 150px at 20% 25%, rgba(255,255,255,0.08), transparent 80%), 
+    radial-gradient(ellipse 320px 180px at 80% 30%, rgba(220,220,220,0.07), transparent 80%), 
 
-    /* --- STRONG CURVED STROKES LAYER 2 (different positions) --- */ 
-    radial-gradient(ellipse at 30% 75%, rgba(255,255,255,0.10), transparent 70%), 
-    radial-gradient(ellipse at 70% 85%, rgba(200,200,200,0.08), transparent 70%), 
+    /* --- STRONG CURVED STROKES LAYER 2 --- */ 
+    radial-gradient(ellipse 280px 140px at 30% 75%, rgba(255,255,255,0.07), transparent 80%), 
+    radial-gradient(ellipse 300px 160px at 70% 85%, rgba(200,200,200,0.06), transparent 80%), 
 
-    /* --- STRONG CURVED STROKES LAYER 3 (different directions) --- */ 
-    radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.08), transparent 75%), 
-    radial-gradient(ellipse at 60% 20%, rgba(255,255,255,0.06), transparent 80%), 
+    /* --- STRONG CURVED STROKES LAYER 3 --- */ 
+    radial-gradient(ellipse 260px 120px at 50% 50%, rgba(255,255,255,0.06), transparent 85%), 
+    radial-gradient(ellipse 240px 100px at 60% 20%, rgba(255,255,255,0.05), transparent 85%), 
 
     /* --- MULTIPLE OVERLAPPING SWIRL BRUSH RINGS --- */ 
     conic-gradient(
         from 170deg at 40% 60%, 
-        rgba(255,255,255,0.08), 
+        rgba(255,255,255,0.10), 
         rgba(0,0,0,0.06) 20%, 
-        rgba(255,255,255,0.04) 47%, 
+        rgba(255,255,255,0.05) 47%, 
         rgba(0,0,0,0.07) 70%, 
-        rgba(255,255,255,0.02) 100%
+        rgba(255,255,255,0.03) 100%
     ), 
     conic-gradient(
         from -20deg at 65% 40%, 
-        rgba(255,255,255,0.07), 
+        rgba(255,255,255,0.09), 
         rgba(0,0,0,0.05) 25%, 
-        rgba(255,255,255,0.03) 60%, 
+        rgba(255,255,255,0.04) 60%, 
         rgba(0,0,0,0.06) 100%
     ), 
 
-    /* --- ANGULAR STROKE BLADES --- */ 
+    /* --- ANGULAR STROKE BLADES (diagonal TL-BR) --- */ 
     linear-gradient(
-        140deg, 
-        rgba(255,255,255,0.07), 
-        rgba(255,255,255,0.02) 25%, 
-        rgba(0,0,0,0.09) 55%, 
-        rgba(255,255,255,0.01) 80%, 
-        rgba(0,0,0,0.08) 100%
+        45deg, 
+        rgba(255,255,255,0.12), 
+        rgba(255,255,255,0.05) 25%, 
+        rgba(0,0,0,0.10) 55%, 
+        rgba(255,255,255,0.04) 80%, 
+        rgba(0,0,0,0.09) 100%
     ), 
 
-    /* --- METALLIC GRAIN NOISE --- */ 
+    /* --- NEW DIAGONAL STROKE BLADES (TR-BL) --- */
+    linear-gradient(
+        135deg, 
+        rgba(255,255,255,0.12), 
+        rgba(255,255,255,0.05) 25%, 
+        rgba(0,0,0,0.10) 55%, 
+        rgba(255,255,255,0.04) 80%, 
+        rgba(0,0,0,0.09) 100%
+    ), 
+
+    /* --- METALLIC GRAIN NOISE (diagonal) --- */ 
     repeating-linear-gradient(
-        90deg, 
+        45deg,  
         rgba(255,255,255,0.03) 0px, 
         rgba(255,255,255,0.01) 1px, 
         rgba(40,40,40,0.03) 2px, 
-        rgba(0,0,0,0.02) 3px
+        rgba(0,0,0,0.01) 3px
     ), 
 
     /* tiny sparkles */ 
@@ -215,8 +225,8 @@
     radial-gradient(circle at 85% 20%, rgba(255,255,255,0.02), transparent 85%), 
     radial-gradient(circle at 55% 10%, rgba(255,255,255,0.02), transparent 85%), 
 
-    /* base dark platinum (darker) */ 
-    linear-gradient(180deg, #45484c 0%, #36383c 45%, #292b2f 100%); 
+    /* base dark platinum (slightly lighter) */ 
+    linear-gradient(180deg, #505459 0%, #41444a 45%, #323439 100%); 
 
     background-blend-mode: 
         screen, screen,
@@ -224,7 +234,8 @@
         soft-light, soft-light, 
         overlay, overlay, multiply, 
         screen, screen, 
-        screen, normal; 
+        screen, screen,  
+        normal; 
 
     min-height: 100vh; 
     position: relative; 
