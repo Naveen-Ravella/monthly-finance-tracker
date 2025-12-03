@@ -69,7 +69,6 @@ export function FinanceTracker() {
 
   const handleDeleteRecurring = (id: string) => {
     setRecurringTransactions((prev) => prev.filter((r) => r.id !== id));
-    // Also remove all auto-generated transactions from this recurring
     setTransactions((prev) => prev.filter((t) => t.recurringId !== id));
   };
 
@@ -80,23 +79,45 @@ export function FinanceTracker() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background metallic-dark-bg">
       <div className="container mx-auto py-8 px-4 max-w-7xl">
-        {/* Header */}
+        {/* Header - Platinum Styling */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Personal Finance Tracker</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            Personal Finance Tracker
+          </h1>
+          <p className="text-muted-foreground tracking-wide">
             Track your income and expenses, manage budgets, and visualize your financial health
           </p>
         </div>
 
         {/* Main Content */}
         <Tabs defaultValue="dashboard" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
-            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-            <TabsTrigger value="add">Add Transaction</TabsTrigger>
-            <TabsTrigger value="budgets">Budgets</TabsTrigger>
-            <TabsTrigger value="recurring">Recurring</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid bg-card/50 border border-primary/20 p-1">
+            <TabsTrigger 
+              value="dashboard"
+              className="data-[state=active]:platinum-select data-[state=active]:font-semibold"
+            >
+              Dashboard
+            </TabsTrigger>
+            <TabsTrigger 
+              value="add"
+              className="data-[state=active]:platinum-select data-[state=active]:font-semibold"
+            >
+              Add Transaction
+            </TabsTrigger>
+            <TabsTrigger 
+              value="budgets"
+              className="data-[state=active]:platinum-select data-[state=active]:font-semibold"
+            >
+              Budgets
+            </TabsTrigger>
+            <TabsTrigger 
+              value="recurring"
+              className="data-[state=active]:platinum-select data-[state=active]:font-semibold"
+            >
+              Recurring
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="space-y-6">
@@ -117,8 +138,8 @@ export function FinanceTracker() {
 
           <TabsContent value="recurring" className="space-y-6">
             <div className="grid gap-6 lg:grid-cols-2">
-              <Card className="p-6">
-                <h2 className="text-2xl font-bold mb-6">Create Recurring Transaction</h2>
+              <Card className="p-6 silver-metallic">
+                <h2 className="text-2xl font-bold mb-6 tracking-tight">Create Recurring Transaction</h2>
                 <RecurringTransactionForm onAddRecurring={handleAddRecurring} />
               </Card>
               <div>
@@ -132,8 +153,8 @@ export function FinanceTracker() {
           </TabsContent>
 
           <TabsContent value="add" className="space-y-6">
-            <Card className="p-6 max-w-2xl mx-auto">
-              <h2 className="text-2xl font-bold mb-6">Add New Transaction</h2>
+            <Card className="p-6 max-w-2xl mx-auto silver-metallic">
+              <h2 className="text-2xl font-bold mb-6 tracking-tight">Add New Transaction</h2>
               <TransactionForm onAddTransaction={handleAddTransaction} />
             </Card>
           </TabsContent>
