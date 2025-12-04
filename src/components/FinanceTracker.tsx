@@ -379,7 +379,7 @@ function FinanceTrackerContent() {
 
           <TabsContent value="recurring" className="space-y-6">
             <div className="grid gap-6 lg:grid-cols-2">
-              <Card className="p-6 platinum-luxury">
+              <Card className="p-6 platinum-luxury !border-white">
                 <h2 className="text-2xl font-bold mb-6 tracking-tight text-white">Create Recurring Transaction</h2>
                 <RecurringTransactionForm onAddRecurring={handleAddRecurring} />
               </Card>
