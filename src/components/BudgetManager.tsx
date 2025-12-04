@@ -93,7 +93,7 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
       {/* Alert Banner */}
       {hasAlerts && (
         <Alert variant="destructive" className="border-destructive/50">
-          <AlertCircle className="h-4 w-4" />
+          <AlertCircle className="h-4 w-4 text-white" />
           <AlertDescription className="text-white">
             You have {budgetStatuses.filter((b) => b.status === 'danger').length} budget(s) exceeded and{' '}
             {budgetStatuses.filter((b) => b.status === 'warning').length} budget(s) near limit this month.
@@ -148,13 +148,13 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-white">Current Month Budgets</h3>
         {budgetStatuses.length === 0 ? (
-          <Card className="p-8 text-center platinum-luxury border-primary/40">
+          <Card className="p-8 text-center platinum-luxury border-white/40">
             <p className="text-white/50">No budgets set. Add a budget to track your spending.</p>
           </Card>
         ) : (
           <div className="space-y-3">
             {budgetStatuses.map((budget) => (
-              <Card key={budget.category} className="p-4 platinum-luxury border-primary/40">
+              <Card key={budget.category} className="p-4 platinum-luxury border-white/40">
                 <div className="space-y-3">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -180,7 +180,7 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
                       variant="ghost"
                       size="icon"
                       onClick={() => onDeleteBudget(budget.category)}
-                      className="text-destructive hover:text-destructive"
+                      className="text-white hover:text-white hover:bg-destructive/20"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

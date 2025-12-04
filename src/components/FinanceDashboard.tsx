@@ -206,7 +206,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
   return (
     <div className="space-y-6">
       {/* Total Net Worth - Luxurious Platinum Card */}
-      <Card className="p-8 platinum-luxury border-primary/50">
+      <Card className="p-8 platinum-luxury border-white/40">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-medium text-white uppercase tracking-[0.15em] letter-spacing-wide">Total Net Worth</h3>
           <Wallet className="h-7 w-7 text-white" />
@@ -222,7 +222,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
         <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
           {/* Period Selectors */}
           <div className="flex items-center gap-3 flex-wrap">
-            <Calendar className="h-5 w-5 text-white flex-shrink-0" />
+            <Filter className="h-5 w-5 text-white flex-shrink-0" />
             
             {/* Year Dropdown */}
             <Select 
@@ -355,7 +355,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
 
       {/* Overview Stats - Platinum */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="p-6 platinum-luxury border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300">
+        <Card className="p-6 platinum-luxury border-white/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium text-white uppercase tracking-[0.12em]">Net Worth</h3>
             <Wallet className="h-5 w-5 text-white" />
@@ -366,7 +366,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
           <p className="text-xs text-white/60 mt-1 font-light tracking-wide">{getPeriodLabel()}</p>
         </Card>
 
-        <Card className="p-6 platinum-luxury border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300">
+        <Card className="p-6 platinum-luxury border-white/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium text-white uppercase tracking-[0.12em]">Income</h3>
             <TrendingUp className="h-5 w-5 text-green-400" />
@@ -377,7 +377,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
           <p className="text-xs text-white/60 mt-1 font-light tracking-wide">{getPeriodLabel()}</p>
         </Card>
 
-        <Card className="p-6 platinum-luxury border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300">
+        <Card className="p-6 platinum-luxury border-white/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium text-white uppercase tracking-[0.12em]">Expenses</h3>
             <TrendingDown className="h-5 w-5 text-red-400" />
@@ -393,7 +393,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
 
       {/* Charts - Platinum */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="p-6 platinum-luxury border-primary/40">
+        <Card className="p-6 platinum-luxury border-white/40">
           <div className="mb-4">
             <h3 className="text-lg font-semibold tracking-tight text-white">Expense Breakdown</h3>
             <p className="text-sm text-white/60 font-light tracking-wide">{getPeriodLabel()}</p>
@@ -426,7 +426,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
           )}
         </Card>
 
-        <Card className="p-6 platinum-luxury border-primary/40">
+        <Card className="p-6 platinum-luxury border-white/40">
           <div className="mb-4">
             <h3 className="text-lg font-semibold tracking-tight text-white">Top Spending Categories</h3>
             <p className="text-sm text-white/60 font-light tracking-wide">{getPeriodLabel()}</p>
@@ -461,7 +461,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
       </div>
 
       {/* Transactions List - Platinum */}
-      <Card className="p-6 platinum-luxury border-primary/40">
+      <Card className="p-6 platinum-luxury border-white/40">
         <div className="mb-4">
           <h3 className="text-lg font-semibold tracking-tight text-white">Recent Transactions</h3>
           <p className="text-sm text-white/60 font-light tracking-wide">
@@ -479,7 +479,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
               const transactionDate = typeof transaction.date === 'string' ? parseISO(transaction.date) : transaction.date;
               
               return (
-                <Card key={transaction.id} className="p-4 hover:shadow-lg hover:shadow-primary/5 transition-all bg-background/40 border-2 border-primary/30">
+                <Card key={transaction.id} className="p-4 hover:shadow-lg hover:shadow-primary/5 transition-all bg-background/40 border-2 border-white/40">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-3 flex-1">
                       {transaction.type === 'income' ? (
@@ -490,7 +490,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
                           <h4 className="font-semibold text-white">{transaction.description}</h4>
-                          <Badge variant="secondary" className="text-xs bg-primary/20 text-white border-2 border-primary/30">{transaction.category}</Badge>
+                          <Badge variant="secondary" className="text-xs bg-primary/20 text-white border-2 border-white/30">{transaction.category}</Badge>
                         </div>
                         <div className="flex items-center gap-4 mt-1 text-sm text-white/60">
                           <span className="flex items-center gap-1">
@@ -508,7 +508,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                         variant="ghost"
                         size="icon"
                         onClick={() => onDeleteTransaction(transaction.id)}
-                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                        className="text-white hover:text-white hover:bg-destructive/20"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

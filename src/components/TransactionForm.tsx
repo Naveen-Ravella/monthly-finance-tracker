@@ -9,7 +9,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { TransactionType, expenseCategories, incomeCategories } from '@/types/finance';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, Calendar } from 'lucide-react';
 
 const transactionSchema = z.object({
   type: z.enum(['income', 'expense']),
@@ -135,9 +135,12 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
             name="date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white">Date</FormLabel>
+                <FormLabel className="text-white flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-white" />
+                  Date
+                </FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} className="border-2 border-white text-white" />
+                  <Input type="date" {...field} className="border-2 border-white text-white [&::-webkit-calendar-picker-indicator]:invert" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
