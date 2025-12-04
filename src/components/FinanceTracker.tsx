@@ -61,6 +61,73 @@ function FinanceTrackerContent() {
     fetchData();
   }, []);
 
+  // Process recurring transactions and generate due transactions
+  useEffect(() => {
+    const processRecurringTransactions = async () => {
+      if (isLoading || recurringTransactions.length === 0) return;
+
+      const activeRecurring = recurringTransactions.filter(r => r.isActive);
+      if (activeRecurring.length === 0) return;
+
+      let hasNewTransactions = false;
+
+      for (const recurring of activeRecurring) {
+        // Generate due transactions for this recurring transaction
+        const dueTransactions = generateDueTransactions(recurring, new Date());
+
+        if (dueTransactions.length > 0) {
+          // Save each generated transaction
+          for (const transaction of dueTransactions) {
+            try {
+              const response = await fetch('/api/transactions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  ...transaction,
+                  recurringId: recurring.id
+                })
+              });
+
+              if (response.ok) {
+                const newTransaction = await response.json();
+                setTransactions(prev => [...prev, newTransaction]);
+                hasNewTransactions = true;
+              }
+            } catch (error) {
+              console.error('Error creating transaction from recurring:', error);
+            }
+          }
+
+          // Update lastGenerated date for the recurring transaction
+          try {
+            const response = await fetch(`/api/recurring?id=${recurring.id}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ 
+                lastGenerated: new Date().toISOString()
+              })
+            });
+
+            if (response.ok) {
+              const updated = await response.json();
+              setRecurringTransactions(prev =>
+                prev.map(r => r.id === recurring.id ? updated : r)
+              );
+            }
+          } catch (error) {
+            console.error('Error updating recurring transaction:', error);
+          }
+        }
+      }
+
+      if (hasNewTransactions) {
+        toast.success('New recurring transactions have been added automatically');
+      }
+    };
+
+    processRecurringTransactions();
+  }, [recurringTransactions, isLoading]);
+
   const handleAddTransaction = async (data: Omit<Transaction, 'id'>) => {
     try {
       const response = await fetch('/api/transactions', {
@@ -270,25 +337,25 @@ function FinanceTrackerContent() {
           <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid platinum-luxury border-2 border-white/40 p-1">
             <TabsTrigger 
               value="dashboard"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-black transition-all"
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all"
             >
               Dashboard
             </TabsTrigger>
             <TabsTrigger 
               value="add"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-black transition-all"
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all"
             >
               Add Transaction
             </TabsTrigger>
             <TabsTrigger 
               value="budgets"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-black transition-all"
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all"
             >
               Budgets
             </TabsTrigger>
             <TabsTrigger 
               value="recurring"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-black transition-all"
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all"
             >
               Recurring
             </TabsTrigger>
