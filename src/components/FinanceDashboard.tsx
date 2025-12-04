@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useMemo, useState } from 'react';
 import { Transaction } from '@/types/finance';
@@ -24,9 +24,9 @@ type PeriodType = 'year' | 'month' | 'overall';
 type TransactionTypeFilter = 'all' | 'income' | 'expense';
 
 const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
-];
+'January', 'February', 'March', 'April', 'May', 'June',
+'July', 'August', 'September', 'October', 'November', 'December'];
+
 
 export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceDashboardProps) {
   const now = new Date();
@@ -52,23 +52,23 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
     if (periodType === 'overall') {
       return null;
     }
-    
+
     if (periodType === 'month') {
       const date = new Date(selectedYear, selectedMonth, 1);
-      return { 
-        start: startOfMonth(date), 
-        end: endOfMonth(date) 
+      return {
+        start: startOfMonth(date),
+        end: endOfMonth(date)
       };
     }
-    
+
     if (periodType === 'year') {
       const yearDate = new Date(selectedYear, 0, 1);
-      return { 
-        start: startOfYear(yearDate), 
-        end: endOfYear(yearDate) 
+      return {
+        start: startOfYear(yearDate),
+        end: endOfYear(yearDate)
       };
     }
-    
+
     return null;
   };
 
@@ -89,16 +89,16 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
   // Filtered transactions for display
   const filteredTransactionsForDisplay = useMemo(() => {
     const dateRange = getDateRange();
-    
+
     return transactions.filter((transaction) => {
       const date = typeof transaction.date === 'string' ? parseISO(transaction.date) : transaction.date;
-      const inRange = dateRange 
-        ? isWithinInterval(date, dateRange)
-        : true;
+      const inRange = dateRange ?
+      isWithinInterval(date, dateRange) :
+      true;
 
       // Apply type filter
       const matchesType = typeFilter === 'all' || transaction.type === typeFilter;
-      
+
       // Apply category filter
       const matchesCategory = categoryFilter === 'all' || transaction.category === categoryFilter;
 
@@ -113,19 +113,19 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
   // Calculate income and expense for selected period with filters
   const periodStats = useMemo(() => {
     const dateRange = getDateRange();
-    
+
     let income = 0;
     let expense = 0;
 
     transactions.forEach((transaction) => {
       const date = typeof transaction.date === 'string' ? parseISO(transaction.date) : transaction.date;
-      const inRange = dateRange 
-        ? isWithinInterval(date, dateRange)
-        : true;
+      const inRange = dateRange ?
+      isWithinInterval(date, dateRange) :
+      true;
 
       // Apply type filter
       const matchesType = typeFilter === 'all' || transaction.type === typeFilter;
-      
+
       // Apply category filter
       const matchesCategory = categoryFilter === 'all' || transaction.category === categoryFilter;
 
@@ -151,13 +151,13 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
     transactions.forEach((transaction) => {
       if (transaction.type === 'expense') {
         const date = typeof transaction.date === 'string' ? parseISO(transaction.date) : transaction.date;
-        const inRange = dateRange 
-          ? isWithinInterval(date, dateRange)
-          : true;
+        const inRange = dateRange ?
+        isWithinInterval(date, dateRange) :
+        true;
 
         // Apply type filter (only expense for breakdown)
         const matchesType = typeFilter === 'all' || typeFilter === 'expense';
-        
+
         // Apply category filter
         const matchesCategory = categoryFilter === 'all' || transaction.category === categoryFilter;
 
@@ -167,26 +167,26 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
       }
     });
 
-    return Object.entries(categoryTotals)
-      .map(([name, value]) => ({ name, value }))
-      .sort((a, b) => b.value - a.value);
+    return Object.entries(categoryTotals).
+    map(([name, value]) => ({ name, value })).
+    sort((a, b) => b.value - a.value);
   }, [transactions, periodType, selectedMonth, selectedYear, typeFilter, categoryFilter]);
 
   // Calculate overall stats (Total Net Worth - all time)
   const overallStats = useMemo(() => {
-    const totalIncome = transactions
-      .filter((t) => t.type === 'income')
-      .reduce((sum, t) => sum + t.amount, 0);
+    const totalIncome = transactions.
+    filter((t) => t.type === 'income').
+    reduce((sum, t) => sum + t.amount, 0);
 
-    const totalExpense = transactions
-      .filter((t) => t.type === 'expense')
-      .reduce((sum, t) => sum + t.amount, 0);
+    const totalExpense = transactions.
+    filter((t) => t.type === 'expense').
+    reduce((sum, t) => sum + t.amount, 0);
 
     const netWorth = totalIncome - totalExpense;
 
     return {
       netWorth,
-      savingsRate: periodStats.income > 0 ? ((periodStats.income - periodStats.expense) / periodStats.income) * 100 : 0
+      savingsRate: periodStats.income > 0 ? (periodStats.income - periodStats.expense) / periodStats.income * 100 : 0
     };
   }, [transactions, periodStats]);
 
@@ -206,7 +206,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
   return (
     <div className="space-y-6">
       {/* Total Net Worth - Luxurious Platinum Card */}
-      <Card className="p-8 platinum-luxury border-white/40">
+      <Card className="p-8 platinum-luxury border-white/40 !border-transparent">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-medium text-white uppercase tracking-[0.15em] letter-spacing-wide">Total Net Worth</h3>
           <Wallet className="h-7 w-7 text-white" />
@@ -225,13 +225,13 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
             <Filter className="h-5 w-5 text-white flex-shrink-0" />
             
             {/* Year Dropdown */}
-            <Select 
-              value={selectedYear.toString()} 
+            <Select
+              value={selectedYear.toString()}
               onValueChange={(value) => {
                 setSelectedYear(Number(value));
                 setPeriodType('year');
-              }}
-            >
+              }}>
+
               <SelectTrigger className={cn(
                 "w-[110px] h-9 bg-background/30 border-2 border-white transition-all text-white",
                 periodType === 'year' && "platinum-select font-semibold"
@@ -239,28 +239,28 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                 <SelectValue>{selectedYear}</SelectValue>
               </SelectTrigger>
               <SelectContent className="bg-popover border-2 border-white text-white">
-                {availableYears.length === 0 ? (
-                  <SelectItem value="0" disabled className="text-white">No data</SelectItem>
-                ) : (
-                  availableYears.map((year) => (
-                    <SelectItem 
-                      key={year} 
-                      value={year.toString()}
-                      className={cn(
-                        "cursor-pointer transition-colors text-white",
-                        year === selectedYear && periodType === 'year' && "platinum-select font-semibold"
-                      )}
-                    >
+                {availableYears.length === 0 ?
+                <SelectItem value="0" disabled className="text-white">No data</SelectItem> :
+
+                availableYears.map((year) =>
+                <SelectItem
+                  key={year}
+                  value={year.toString()}
+                  className={cn(
+                    "cursor-pointer transition-colors text-white",
+                    year === selectedYear && periodType === 'year' && "platinum-select font-semibold"
+                  )}>
+
                       {year}
                     </SelectItem>
-                  ))
-                )}
+                )
+                }
               </SelectContent>
             </Select>
 
             {/* Month Dropdown */}
-            <Select 
-              value={periodType === 'month' ? selectedMonth.toString() : 'all'} 
+            <Select
+              value={periodType === 'month' ? selectedMonth.toString() : 'all'}
               onValueChange={(value) => {
                 if (value === 'all') {
                   setPeriodType('year');
@@ -268,8 +268,8 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                   setSelectedMonth(Number(value));
                   setPeriodType('month');
                 }
-              }}
-            >
+              }}>
+
               <SelectTrigger className={cn(
                 "w-[130px] h-9 bg-background/30 border-2 border-white transition-all text-white",
                 periodType === 'month' && "platinum-select font-semibold"
@@ -280,18 +280,18 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
               </SelectTrigger>
               <SelectContent className="bg-popover border-2 border-white text-white">
                 <SelectItem value="all" className="cursor-pointer text-white">All Months</SelectItem>
-                {MONTHS.map((month, index) => (
-                  <SelectItem 
-                    key={month} 
-                    value={index.toString()}
-                    className={cn(
-                      "cursor-pointer transition-colors text-white",
-                      periodType === 'month' && index === selectedMonth && "platinum-select font-semibold"
-                    )}
-                  >
+                {MONTHS.map((month, index) =>
+                <SelectItem
+                  key={month}
+                  value={index.toString()}
+                  className={cn(
+                    "cursor-pointer transition-colors text-white",
+                    periodType === 'month' && index === selectedMonth && "platinum-select font-semibold"
+                  )}>
+
                     {month}
                   </SelectItem>
-                ))}
+                )}
               </SelectContent>
             </Select>
 
@@ -300,11 +300,11 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
               onClick={() => setPeriodType('overall')}
               className={cn(
                 "h-9 px-4 rounded-md text-sm font-medium transition-all border-2",
-                periodType === 'overall' 
-                  ? "platinum-select font-semibold" 
-                  : "bg-background/30 hover:bg-primary/20 border-white text-white"
-              )}
-            >
+                periodType === 'overall' ?
+                "platinum-select font-semibold" :
+                "bg-background/30 hover:bg-primary/20 border-white text-white"
+              )}>
+
               Overall
             </button>
           </div>
@@ -335,11 +335,11 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
               </SelectTrigger>
               <SelectContent className="bg-popover border-2 border-white text-white">
                 <SelectItem value="all" className="cursor-pointer text-white">All Categories</SelectItem>
-                {availableCategories.map((category) => (
-                  <SelectItem key={category} value={category} className="cursor-pointer text-white">
+                {availableCategories.map((category) =>
+                <SelectItem key={category} value={category} className="cursor-pointer text-white">
                     {category}
                   </SelectItem>
-                ))}
+                )}
               </SelectContent>
             </Select>
           </div>
@@ -399,31 +399,31 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
             <p className="text-sm text-white/60 font-light tracking-wide">{getPeriodLabel()}</p>
           </div>
           
-          {expenseBreakdown.length === 0 ? (
-            <div className="h-[300px] flex items-center justify-center text-white/50">
+          {expenseBreakdown.length === 0 ?
+          <div className="h-[300px] flex items-center justify-center text-white/50">
               No expense data for {getPeriodLabel().toLowerCase()}
-            </div>
-          ) : (
-            <ResponsiveContainer width="100%" height={300}>
+            </div> :
+
+          <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
-                  data={expenseBreakdown}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {expenseBreakdown.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
+                data={expenseBreakdown}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value">
+
+                  {expenseBreakdown.map((entry, index) =>
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                )}
                 </Pie>
                 <Tooltip formatter={(value: number) => formatAmount(value)} />
               </PieChart>
             </ResponsiveContainer>
-          )}
+          }
         </Card>
 
         <Card className="p-6 platinum-luxury border-white/40">
@@ -431,32 +431,32 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
             <h3 className="text-lg font-semibold tracking-tight text-white">Top Spending Categories</h3>
             <p className="text-sm text-white/60 font-light tracking-wide">{getPeriodLabel()}</p>
           </div>
-          {expenseBreakdown.length === 0 ? (
-            <p className="text-center text-white/50 py-4">No expenses recorded</p>
-          ) : (
-            <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
-              {expenseBreakdown.map((category, index) => {
-                const total = expenseBreakdown.reduce((sum, cat) => sum + cat.value, 0);
-                const percentage = (category.value / total) * 100;
+          {expenseBreakdown.length === 0 ?
+          <p className="text-center text-white/50 py-4">No expenses recorded</p> :
 
-                return (
-                  <div key={category.name} className="flex items-center gap-4 p-2 rounded-md hover:bg-primary/10 transition-colors">
+          <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+              {expenseBreakdown.map((category, index) => {
+              const total = expenseBreakdown.reduce((sum, cat) => sum + cat.value, 0);
+              const percentage = category.value / total * 100;
+
+              return (
+                <div key={category.name} className="flex items-center gap-4 p-2 rounded-md hover:bg-primary/10 transition-colors">
                     <div className="flex items-center gap-3 flex-1">
                       <div
-                        className="w-4 h-4 rounded shadow-sm border border-primary/20"
-                        style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                      />
+                      className="w-4 h-4 rounded shadow-sm border border-primary/20"
+                      style={{ backgroundColor: COLORS[index % COLORS.length] }} />
+
                       <span className="font-medium text-white">{category.name}</span>
                     </div>
                     <div className="text-right">
                       <p className="font-semibold text-white">{formatAmount(category.value)}</p>
                       <p className="text-xs text-white/60 font-light">{percentage.toFixed(1)}%</p>
                     </div>
-                  </div>
-                );
-              })}
+                  </div>);
+
+            })}
             </div>
-          )}
+          }
         </Card>
       </div>
 
@@ -469,24 +469,24 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
           </p>
         </div>
         
-        {filteredTransactionsForDisplay.length === 0 ? (
-          <div className="text-center py-8 text-white/50">
+        {filteredTransactionsForDisplay.length === 0 ?
+        <div className="text-center py-8 text-white/50">
             No transactions found for the selected filters
-          </div>
-        ) : (
-          <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2">
+          </div> :
+
+        <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2">
             {filteredTransactionsForDisplay.map((transaction) => {
-              const transactionDate = typeof transaction.date === 'string' ? parseISO(transaction.date) : transaction.date;
-              
-              return (
-                <Card key={transaction.id} className="p-4 hover:shadow-lg hover:shadow-primary/5 transition-all bg-background/40 border-2 border-white/40">
+            const transactionDate = typeof transaction.date === 'string' ? parseISO(transaction.date) : transaction.date;
+
+            return (
+              <Card key={transaction.id} className="p-4 hover:shadow-lg hover:shadow-primary/5 transition-all bg-background/40 !border-transparent !border-white">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-3 flex-1">
-                      {transaction.type === 'income' ? (
-                        <ArrowUpCircle className="h-5 w-5 text-green-400 mt-0.5 flex-shrink-0" />
-                      ) : (
-                        <ArrowDownCircle className="h-5 w-5 text-red-400 mt-0.5 flex-shrink-0" />
-                      )}
+                      {transaction.type === 'income' ?
+                    <ArrowUpCircle className="h-5 w-5 text-green-400 mt-0.5 flex-shrink-0" /> :
+
+                    <ArrowDownCircle className="h-5 w-5 text-red-400 mt-0.5 flex-shrink-0" />
+                    }
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
                           <h4 className="font-semibold text-white">{transaction.description}</h4>
@@ -505,21 +505,21 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                         {transaction.type === 'income' ? '+' : '-'}{formatAmount(transaction.amount)}
                       </span>
                       <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => onDeleteTransaction(transaction.id)}
-                        className="text-white hover:text-white hover:bg-destructive/20"
-                      >
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => onDeleteTransaction(transaction.id)}
+                      className="text-white hover:text-white hover:bg-destructive/20">
+
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
-                </Card>
-              );
-            })}
+                </Card>);
+
+          })}
           </div>
-        )}
+        }
       </Card>
-    </div>
-  );
+    </div>);
+
 }
