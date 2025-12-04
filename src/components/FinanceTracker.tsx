@@ -315,7 +315,7 @@ function FinanceTrackerContent() {
           </div>
           
           {/* Currency Selector */}
-          <div className="flex items-center gap-3 platinum-luxury px-4 py-2 rounded-lg border-2 border-white/40">
+          <div className="flex items-center gap-3 platinum-luxury px-4 py-2 rounded-lg border-2 border-white/40 !border-transparent">
             <DollarSign className="h-5 w-5 text-white" />
             <Select value={currency} onValueChange={(value) => setCurrency(value as CurrencyCode)}>
               <SelectTrigger className="w-[160px] h-9 bg-background/30 border-2 border-white text-white">
