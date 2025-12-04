@@ -394,7 +394,7 @@ function FinanceTrackerContent() {
           </TabsContent>
 
           <TabsContent value="add" className="space-y-6">
-            <Card className="p-6 max-w-2xl mx-auto platinum-luxury !border-white">
+            <Card className="p-6 max-w-2xl mx-auto platinum-luxury !border-white !border-transparent">
               <h2 className="text-2xl font-bold mb-6 tracking-tight text-white">Add New Transaction</h2>
               <TransactionForm onAddTransaction={handleAddTransaction} />
             </Card>
