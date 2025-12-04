@@ -11,11 +11,16 @@ import { RecurringTransactionManager } from '@/components/RecurringTransactionMa
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
 import { generateDueTransactions } from '@/lib/recurring-utils';
+import { CurrencyProvider, useCurrency } from '@/contexts/CurrencyContext';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { currencies, CurrencyCode } from '@/types/currency';
+import { DollarSign } from 'lucide-react';
 
-export function FinanceTracker() {
+function FinanceTrackerContent() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [budgets, setBudgets] = useState<Budget[]>([]);
   const [recurringTransactions, setRecurringTransactions] = useState<RecurringTransaction[]>([]);
+  const { currency, setCurrency } = useCurrency();
 
   // Auto-generate transactions from recurring schedules
   useEffect(() => {
@@ -82,18 +87,37 @@ export function FinanceTracker() {
     <div className="min-h-screen bg-background metallic-dark-bg">
       <div className="container mx-auto py-8 px-4 max-w-7xl">
         {/* Header - Platinum Styling */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
-            Personal Finance Tracker
-          </h1>
-          <p className="text-white/70 tracking-wide">
-            Track your income and expenses, manage budgets, and visualize your financial health
-          </p>
+        <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+              Personal Finance Tracker
+            </h1>
+            <p className="text-white/70 tracking-wide">
+              Track your income and expenses, manage budgets, and visualize your financial health
+            </p>
+          </div>
+          
+          {/* Currency Selector */}
+          <div className="flex items-center gap-3 platinum-luxury px-4 py-2 rounded-lg border-2 border-white/40">
+            <DollarSign className="h-5 w-5 text-white" />
+            <Select value={currency} onValueChange={(value) => setCurrency(value as CurrencyCode)}>
+              <SelectTrigger className="w-[160px] h-9 bg-background/30 border-2 border-white text-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-popover border-2 border-white text-white">
+                {Object.values(currencies).map((curr) => (
+                  <SelectItem key={curr.code} value={curr.code} className="cursor-pointer text-white">
+                    {curr.symbol} {curr.code} - {curr.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* Main Content */}
         <Tabs defaultValue="dashboard" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid bg-card/50 border-2 border-primary/30 p-1">
+          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid platinum-luxury border-2 border-white/40 p-1">
             <TabsTrigger 
               value="dashboard"
               className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all text-white"
@@ -161,5 +185,13 @@ export function FinanceTracker() {
         </Tabs>
       </div>
     </div>
+  );
+}
+
+export function FinanceTracker() {
+  return (
+    <CurrencyProvider>
+      <FinanceTrackerContent />
+    </CurrencyProvider>
   );
 }

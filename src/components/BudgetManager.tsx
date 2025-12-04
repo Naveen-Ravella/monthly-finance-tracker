@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { AlertCircle, PlusCircle, Trash2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { startOfMonth, endOfMonth, isWithinInterval } from 'date-fns';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface BudgetManagerProps {
   budgets: Budget[];
@@ -22,6 +23,7 @@ interface BudgetManagerProps {
 export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudget }: BudgetManagerProps) {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [budgetAmount, setBudgetAmount] = useState('');
+  const { formatAmount } = useCurrency();
 
   // Calculate current month spending by category
   const currentMonthSpending = useMemo(() => {
@@ -100,21 +102,21 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
       )}
 
       {/* Add Budget Form - Platinum */}
-      <Card className="p-4 platinum-luxury border-primary/40">
+      <Card className="p-4 platinum-luxury border-white/40">
         <h3 className="text-lg font-semibold mb-4 text-white">Add Budget</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-full border-primary/30 text-white">
+            <SelectTrigger className="w-full border-2 border-white text-white">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
-            <SelectContent className="bg-popover border-primary/40">
+            <SelectContent className="bg-popover border-2 border-white text-white">
               {availableCategories.length === 0 ? (
-                <SelectItem value="none" disabled>
+                <SelectItem value="none" disabled className="text-white">
                   All categories have budgets
                 </SelectItem>
               ) : (
                 availableCategories.map((category) => (
-                  <SelectItem key={category} value={category} className="cursor-pointer">
+                  <SelectItem key={category} value={category} className="cursor-pointer text-white">
                     {category}
                   </SelectItem>
                 ))
@@ -128,10 +130,14 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
             placeholder="Budget limit"
             value={budgetAmount}
             onChange={(e) => setBudgetAmount(e.target.value)}
-            className="border-primary/30 text-white"
+            className="border-2 border-white text-white placeholder:text-white/50"
           />
 
-          <Button onClick={handleAddBudget} disabled={!selectedCategory || !budgetAmount} className="platinum-button">
+          <Button 
+            onClick={handleAddBudget} 
+            disabled={!selectedCategory || !budgetAmount} 
+            className="platinum-button text-black font-bold hover:text-black"
+          >
             <PlusCircle className="mr-2 h-4 w-4" />
             Add Budget
           </Button>
@@ -163,10 +169,10 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
                       </div>
                       <div className="flex items-baseline gap-2 mt-1">
                         <span className="text-2xl font-bold text-white">
-                          ${budget.spent.toFixed(2)}
+                          {formatAmount(budget.spent)}
                         </span>
                         <span className="text-sm text-white/60">
-                          / ${budget.limit.toFixed(2)}
+                          / {formatAmount(budget.limit)}
                         </span>
                       </div>
                     </div>
@@ -196,7 +202,7 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
                         {budget.percentage.toFixed(1)}% used
                       </span>
                       <span className={budget.remaining >= 0 ? 'text-green-400' : 'text-red-400'}>
-                        {budget.remaining >= 0 ? `$${budget.remaining.toFixed(2)} remaining` : `$${Math.abs(budget.remaining).toFixed(2)} over`}
+                        {budget.remaining >= 0 ? `${formatAmount(budget.remaining)} remaining` : `${formatAmount(Math.abs(budget.remaining))} over`}
                       </span>
                     </div>
                   </div>

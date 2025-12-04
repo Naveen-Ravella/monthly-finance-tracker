@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { expenseCategories, incomeCategories } from '@/types/finance';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface FinanceDashboardProps {
   transactions: Transaction[];
@@ -34,6 +35,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
   const [selectedYear, setSelectedYear] = useState<number>(now.getFullYear());
   const [typeFilter, setTypeFilter] = useState<TransactionTypeFilter>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  const { formatAmount } = useCurrency();
 
   // Get all unique years from transactions
   const availableYears = useMemo(() => {
@@ -207,20 +209,20 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
       <Card className="p-8 platinum-luxury border-primary/50">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-medium text-white uppercase tracking-[0.15em] letter-spacing-wide">Total Net Worth</h3>
-          <Wallet className="h-7 w-7 text-primary/90" />
+          <Wallet className="h-7 w-7 text-white" />
         </div>
         <p className={`text-5xl font-bold tracking-tight ${overallStats.netWorth >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-          ${overallStats.netWorth.toFixed(2)}
+          {formatAmount(overallStats.netWorth)}
         </p>
         <p className="text-sm text-white/70 mt-2 font-light tracking-wide">Lifetime balance</p>
       </Card>
 
       {/* Filters - Platinum */}
-      <Card className="p-5 platinum-luxury border-primary/40">
+      <Card className="p-5 platinum-luxury border-white/40">
         <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
           {/* Period Selectors */}
           <div className="flex items-center gap-3 flex-wrap">
-            <Calendar className="h-5 w-5 text-primary/80 flex-shrink-0" />
+            <Calendar className="h-5 w-5 text-white flex-shrink-0" />
             
             {/* Year Dropdown */}
             <Select 
@@ -231,21 +233,21 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
               }}
             >
               <SelectTrigger className={cn(
-                "w-[110px] h-9 bg-background/30 border-2 border-primary/30 transition-all text-white",
+                "w-[110px] h-9 bg-background/30 border-2 border-white transition-all text-white",
                 periodType === 'year' && "platinum-select font-semibold"
               )}>
                 <SelectValue>{selectedYear}</SelectValue>
               </SelectTrigger>
-              <SelectContent className="bg-popover border-2 border-primary/40">
+              <SelectContent className="bg-popover border-2 border-white text-white">
                 {availableYears.length === 0 ? (
-                  <SelectItem value="0" disabled>No data</SelectItem>
+                  <SelectItem value="0" disabled className="text-white">No data</SelectItem>
                 ) : (
                   availableYears.map((year) => (
                     <SelectItem 
                       key={year} 
                       value={year.toString()}
                       className={cn(
-                        "cursor-pointer transition-colors",
+                        "cursor-pointer transition-colors text-white",
                         year === selectedYear && periodType === 'year' && "platinum-select font-semibold"
                       )}
                     >
@@ -269,21 +271,21 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
               }}
             >
               <SelectTrigger className={cn(
-                "w-[130px] h-9 bg-background/30 border-2 border-primary/30 transition-all text-white",
+                "w-[130px] h-9 bg-background/30 border-2 border-white transition-all text-white",
                 periodType === 'month' && "platinum-select font-semibold"
               )}>
                 <SelectValue>
                   {periodType === 'month' ? MONTHS[selectedMonth] : 'All Months'}
                 </SelectValue>
               </SelectTrigger>
-              <SelectContent className="bg-popover border-2 border-primary/40">
-                <SelectItem value="all" className="cursor-pointer">All Months</SelectItem>
+              <SelectContent className="bg-popover border-2 border-white text-white">
+                <SelectItem value="all" className="cursor-pointer text-white">All Months</SelectItem>
                 {MONTHS.map((month, index) => (
                   <SelectItem 
                     key={month} 
                     value={index.toString()}
                     className={cn(
-                      "cursor-pointer transition-colors",
+                      "cursor-pointer transition-colors text-white",
                       periodType === 'month' && index === selectedMonth && "platinum-select font-semibold"
                     )}
                   >
@@ -300,7 +302,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                 "h-9 px-4 rounded-md text-sm font-medium transition-all border-2",
                 periodType === 'overall' 
                   ? "platinum-select font-semibold" 
-                  : "bg-background/30 hover:bg-primary/20 border-primary/30 text-white"
+                  : "bg-background/30 hover:bg-primary/20 border-white text-white"
               )}
             >
               Overall
@@ -308,33 +310,33 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
           </div>
 
           {/* Divider */}
-          <div className="hidden lg:block h-8 w-px bg-primary/30" />
+          <div className="hidden lg:block h-8 w-px bg-white/30" />
 
           {/* Type and Category Filters */}
           <div className="flex items-center gap-3 flex-wrap">
-            <Filter className="h-5 w-5 text-primary/80 flex-shrink-0" />
+            <Filter className="h-5 w-5 text-white flex-shrink-0" />
             
             {/* Type Filter */}
             <Select value={typeFilter} onValueChange={handleTypeFilterChange}>
-              <SelectTrigger className="w-[120px] h-9 bg-background/30 border-2 border-primary/30 text-white">
+              <SelectTrigger className="w-[120px] h-9 bg-background/30 border-2 border-white text-white">
                 <SelectValue placeholder="Type" />
               </SelectTrigger>
-              <SelectContent className="bg-popover border-2 border-primary/40">
-                <SelectItem value="all" className="cursor-pointer">All Types</SelectItem>
-                <SelectItem value="income" className="cursor-pointer">Income</SelectItem>
-                <SelectItem value="expense" className="cursor-pointer">Expenses</SelectItem>
+              <SelectContent className="bg-popover border-2 border-white text-white">
+                <SelectItem value="all" className="cursor-pointer text-white">All Types</SelectItem>
+                <SelectItem value="income" className="cursor-pointer text-white">Income</SelectItem>
+                <SelectItem value="expense" className="cursor-pointer text-white">Expenses</SelectItem>
               </SelectContent>
             </Select>
 
             {/* Category Filter */}
             <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-[160px] h-9 bg-background/30 border-2 border-primary/30 text-white">
+              <SelectTrigger className="w-[160px] h-9 bg-background/30 border-2 border-white text-white">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
-              <SelectContent className="bg-popover border-2 border-primary/40">
-                <SelectItem value="all" className="cursor-pointer">All Categories</SelectItem>
+              <SelectContent className="bg-popover border-2 border-white text-white">
+                <SelectItem value="all" className="cursor-pointer text-white">All Categories</SelectItem>
                 {availableCategories.map((category) => (
-                  <SelectItem key={category} value={category} className="cursor-pointer">
+                  <SelectItem key={category} value={category} className="cursor-pointer text-white">
                     {category}
                   </SelectItem>
                 ))}
@@ -344,7 +346,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
 
           {/* Period Label */}
           <div className="ml-auto">
-            <span className="text-sm font-medium text-white px-3 py-1.5 rounded-md bg-primary/15 border-2 border-primary/30">
+            <span className="text-sm font-medium text-white px-3 py-1.5 rounded-md bg-primary/15 border-2 border-white/30">
               {getPeriodLabel()}
             </span>
           </div>
@@ -356,10 +358,10 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
         <Card className="p-6 platinum-luxury border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium text-white uppercase tracking-[0.12em]">Net Worth</h3>
-            <Wallet className="h-5 w-5 text-primary/70" />
+            <Wallet className="h-5 w-5 text-white" />
           </div>
           <p className={`text-3xl font-bold ${periodStats.netWorth >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-            ${periodStats.netWorth.toFixed(2)}
+            {formatAmount(periodStats.netWorth)}
           </p>
           <p className="text-xs text-white/60 mt-1 font-light tracking-wide">{getPeriodLabel()}</p>
         </Card>
@@ -370,7 +372,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
             <TrendingUp className="h-5 w-5 text-green-400" />
           </div>
           <p className="text-3xl font-bold text-green-400">
-            ${periodStats.income.toFixed(2)}
+            {formatAmount(periodStats.income)}
           </p>
           <p className="text-xs text-white/60 mt-1 font-light tracking-wide">{getPeriodLabel()}</p>
         </Card>
@@ -381,7 +383,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
             <TrendingDown className="h-5 w-5 text-red-400" />
           </div>
           <p className="text-3xl font-bold text-red-400">
-            ${periodStats.expense.toFixed(2)}
+            {formatAmount(periodStats.expense)}
           </p>
           <p className="text-xs text-white/60 mt-1 font-light tracking-wide">
             Savings rate: {overallStats.savingsRate.toFixed(1)}%
@@ -418,7 +420,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
+                <Tooltip formatter={(value: number) => formatAmount(value)} />
               </PieChart>
             </ResponsiveContainer>
           )}
@@ -447,7 +449,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                       <span className="font-medium text-white">{category.name}</span>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold text-white">${category.value.toFixed(2)}</p>
+                      <p className="font-semibold text-white">{formatAmount(category.value)}</p>
                       <p className="text-xs text-white/60 font-light">{percentage.toFixed(1)}%</p>
                     </div>
                   </div>
@@ -492,7 +494,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                         </div>
                         <div className="flex items-center gap-4 mt-1 text-sm text-white/60">
                           <span className="flex items-center gap-1">
-                            <Calendar className="h-3 w-3" />
+                            <Calendar className="h-3 w-3 text-white" />
                             {format(transactionDate, 'MMM dd, yyyy')}
                           </span>
                         </div>
@@ -500,7 +502,7 @@ export function FinanceDashboard({ transactions, onDeleteTransaction }: FinanceD
                     </div>
                     <div className="flex items-center gap-3">
                       <span className={`text-lg font-bold ${transaction.type === 'income' ? 'text-green-400' : 'text-red-400'}`}>
-                        {transaction.type === 'income' ? '+' : '-'}${transaction.amount.toFixed(2)}
+                        {transaction.type === 'income' ? '+' : '-'}{formatAmount(transaction.amount)}
                       </span>
                       <Button
                         variant="ghost"

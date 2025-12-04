@@ -77,13 +77,13 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
                 <FormLabel className="text-white">Type</FormLabel>
                 <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
-                    <SelectTrigger className="w-full border-primary/30 text-white">
+                    <SelectTrigger className="w-full border-2 border-white text-white">
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="bg-popover border-primary/40">
-                    <SelectItem value="income" className="cursor-pointer">Income</SelectItem>
-                    <SelectItem value="expense" className="cursor-pointer">Expense</SelectItem>
+                  <SelectContent className="bg-popover border-2 border-white text-white">
+                    <SelectItem value="income" className="cursor-pointer text-white">Income</SelectItem>
+                    <SelectItem value="expense" className="cursor-pointer text-white">Expense</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -98,7 +98,7 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
               <FormItem>
                 <FormLabel className="text-white">Amount</FormLabel>
                 <FormControl>
-                  <Input type="number" step="0.01" placeholder="0.00" {...field} className="border-primary/30 text-white" />
+                  <Input type="number" step="0.01" placeholder="0.00" {...field} className="border-2 border-white text-white placeholder:text-white/50" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -113,13 +113,13 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
                 <FormLabel className="text-white">Category</FormLabel>
                 <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
-                    <SelectTrigger className="w-full border-primary/30 text-white">
+                    <SelectTrigger className="w-full border-2 border-white text-white">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="bg-popover border-primary/40">
+                  <SelectContent className="bg-popover border-2 border-white text-white">
                     {categories.map((category) => (
-                      <SelectItem key={category} value={category} className="cursor-pointer">
+                      <SelectItem key={category} value={category} className="cursor-pointer text-white">
                         {category}
                       </SelectItem>
                     ))}
@@ -137,7 +137,7 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
               <FormItem>
                 <FormLabel className="text-white">Date</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} className="border-primary/30 text-white" />
+                  <Input type="date" {...field} className="border-2 border-white text-white" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -152,7 +152,7 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
             <FormItem>
               <FormLabel className="text-white">Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="Enter transaction details..." {...field} className="border-primary/30 text-white" />
+                <Textarea placeholder="Enter transaction details..." {...field} className="border-2 border-white text-white placeholder:text-white/50" />
               </FormControl>
               <FormMessage />
             </FormItem>
