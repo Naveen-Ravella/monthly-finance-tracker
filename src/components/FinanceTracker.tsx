@@ -337,7 +337,7 @@ function FinanceTrackerContent() {
           <TabsList className="grid grid-cols-4 lg:w-auto lg:inline-grid platinum-luxury border-2 border-white/40 p-1 !w-full !h-[41px]">
             <TabsTrigger
               value="dashboard"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all !w-[24%] !h-[30px]">
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all !w-[217px] !h-[30px]">
 
               Dashboard
             </TabsTrigger>
