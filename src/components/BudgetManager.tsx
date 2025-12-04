@@ -148,7 +148,7 @@ export function BudgetManager({ budgets, transactions, onAddBudget, onDeleteBudg
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-white">Current Month Budgets</h3>
         {budgetStatuses.length === 0 ?
-        <Card className="p-8 text-center platinum-luxury border-white/40">
+        <Card className="p-8 text-center platinum-luxury border-white/40 !border-transparent">
             <p className="text-white/50">No budgets set. Add a budget to track your spending.</p>
           </Card> :
 
