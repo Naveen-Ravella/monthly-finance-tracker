@@ -65,7 +65,7 @@ export function RecurringTransactionForm({ onAddRecurring }: RecurringTransactio
             <SelectTrigger className="border-2 border-white text-white">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-popover border-2 border-white text-white">
+            <SelectContent className="bg-popover border-2 border-white text-white backdrop-blur-sm">
               <SelectItem value="income" className="cursor-pointer text-white">Income</SelectItem>
               <SelectItem value="expense" className="cursor-pointer text-white">Expense</SelectItem>
             </SelectContent>
@@ -95,7 +95,7 @@ export function RecurringTransactionForm({ onAddRecurring }: RecurringTransactio
             <SelectTrigger className="border-2 border-white text-white">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
-            <SelectContent className="bg-popover border-2 border-white text-white">
+            <SelectContent className="bg-popover border-2 border-white text-white backdrop-blur-sm">
               {categories.map((cat) => (
                 <SelectItem key={cat} value={cat} className="cursor-pointer text-white">
                   {cat}
@@ -111,7 +111,7 @@ export function RecurringTransactionForm({ onAddRecurring }: RecurringTransactio
             <SelectTrigger className="border-2 border-white text-white">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-popover border-2 border-white text-white">
+            <SelectContent className="bg-popover border-2 border-white text-white backdrop-blur-sm">
               <SelectItem value="daily" className="cursor-pointer text-white">Daily</SelectItem>
               <SelectItem value="weekly" className="cursor-pointer text-white">Weekly</SelectItem>
               <SelectItem value="monthly" className="cursor-pointer text-white">Monthly</SelectItem>
@@ -145,12 +145,13 @@ export function RecurringTransactionForm({ onAddRecurring }: RecurringTransactio
                 {format(startDate, 'PPP')}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0 bg-popover border-2 border-white">
+            <PopoverContent className="w-auto p-0 bg-popover/95 backdrop-blur-sm border-2 border-white text-white">
               <Calendar
                 mode="single"
                 selected={startDate}
                 onSelect={(date) => date && setStartDate(date)}
                 initialFocus
+                className="text-white [&_.rdp-day]:text-white [&_.rdp-day_button]:text-white [&_.rdp-caption]:text-white [&_.rdp-nav_button]:text-white [&_.rdp-head_cell]:text-white"
               />
             </PopoverContent>
           </Popover>
@@ -177,13 +178,14 @@ export function RecurringTransactionForm({ onAddRecurring }: RecurringTransactio
                   {endDate ? format(endDate, 'PPP') : 'Pick end date'}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0 bg-popover border-2 border-white">
+              <PopoverContent className="w-auto p-0 bg-popover/95 backdrop-blur-sm border-2 border-white text-white">
                 <Calendar
                   mode="single"
                   selected={endDate}
                   onSelect={setEndDate}
                   initialFocus
                   disabled={(date) => date < startDate}
+                  className="text-white [&_.rdp-day]:text-white [&_.rdp-day_button]:text-white [&_.rdp-caption]:text-white [&_.rdp-nav_button]:text-white [&_.rdp-head_cell]:text-white"
                 />
               </PopoverContent>
             </Popover>

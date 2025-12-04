@@ -81,7 +81,7 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="bg-popover border-2 border-white text-white">
+                  <SelectContent className="bg-popover border-2 border-white text-white backdrop-blur-sm">
                     <SelectItem value="income" className="cursor-pointer text-white">Income</SelectItem>
                     <SelectItem value="expense" className="cursor-pointer text-white">Expense</SelectItem>
                   </SelectContent>
@@ -117,7 +117,7 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="bg-popover border-2 border-white text-white">
+                  <SelectContent className="bg-popover border-2 border-white text-white backdrop-blur-sm">
                     {categories.map((category) => (
                       <SelectItem key={category} value={category} className="cursor-pointer text-white">
                         {category}
