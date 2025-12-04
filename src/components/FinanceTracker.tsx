@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Transaction, Budget, RecurringTransaction } from '@/types/finance';
 import { TransactionForm } from '@/components/TransactionForm';
 import { TransactionList } from '@/components/TransactionList';
@@ -21,21 +21,6 @@ function FinanceTrackerContent() {
   const [budgets, setBudgets] = useState<Budget[]>([]);
   const [recurringTransactions, setRecurringTransactions] = useState<RecurringTransaction[]>([]);
   const { currency, setCurrency } = useCurrency();
-
-  // Auto-generate transactions from recurring schedules
-  useEffect(() => {
-    if (recurringTransactions.length === 0) return;
-
-    const { transactions: newTransactions, updatedRecurring } = generateDueTransactions(
-      recurringTransactions,
-      transactions
-    );
-
-    if (newTransactions.length > 0) {
-      setTransactions((prev) => [...prev, ...newTransactions]);
-      setRecurringTransactions(updatedRecurring);
-    }
-  }, [recurringTransactions, transactions]);
 
   const handleAddTransaction = (data: Omit<Transaction, 'id'>) => {
     const newTransaction: Transaction = {
@@ -120,25 +105,25 @@ function FinanceTrackerContent() {
           <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid platinum-luxury border-2 border-white/40 p-1">
             <TabsTrigger 
               value="dashboard"
-              className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all text-white"
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold transition-all"
             >
               Dashboard
             </TabsTrigger>
             <TabsTrigger 
               value="add"
-              className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all text-white"
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold transition-all"
             >
               Add Transaction
             </TabsTrigger>
             <TabsTrigger 
               value="budgets"
-              className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all text-white"
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold transition-all"
             >
               Budgets
             </TabsTrigger>
             <TabsTrigger 
               value="recurring"
-              className="data-[state=active]:platinum-select data-[state=active]:font-semibold transition-all text-white"
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold transition-all"
             >
               Recurring
             </TabsTrigger>
