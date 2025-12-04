@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useEffect, useRef } from 'react';
 import { Transaction, Budget, RecurringTransaction } from '@/types/finance';
@@ -29,7 +29,7 @@ function FinanceTrackerContent() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        
+
         // Fetch transactions
         const transactionsRes = await fetch('/api/transactions');
         if (transactionsRes.ok) {
@@ -66,7 +66,7 @@ function FinanceTrackerContent() {
     const processRecurringTransactions = async () => {
       if (isLoading || recurringTransactions.length === 0) return;
 
-      const activeRecurring = recurringTransactions.filter(r => r.isActive);
+      const activeRecurring = recurringTransactions.filter((r) => r.isActive);
       if (activeRecurring.length === 0) return;
 
       let hasNewTransactions = false;
@@ -90,7 +90,7 @@ function FinanceTrackerContent() {
 
               if (response.ok) {
                 const newTransaction = await response.json();
-                setTransactions(prev => [...prev, newTransaction]);
+                setTransactions((prev) => [...prev, newTransaction]);
                 hasNewTransactions = true;
               }
             } catch (error) {
@@ -103,15 +103,15 @@ function FinanceTrackerContent() {
             const response = await fetch(`/api/recurring?id=${recurring.id}`, {
               method: 'PATCH',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ 
+              body: JSON.stringify({
                 lastGenerated: new Date().toISOString()
               })
             });
 
             if (response.ok) {
               const updated = await response.json();
-              setRecurringTransactions(prev =>
-                prev.map(r => r.id === recurring.id ? updated : r)
+              setRecurringTransactions((prev) =>
+              prev.map((r) => r.id === recurring.id ? updated : r)
               );
             }
           } catch (error) {
@@ -189,7 +189,7 @@ function FinanceTrackerContent() {
       setBudgets((prev) => {
         const existing = prev.find((b) => b.category === savedBudget.category);
         if (existing) {
-          return prev.map((b) => (b.category === savedBudget.category ? savedBudget : b));
+          return prev.map((b) => b.category === savedBudget.category ? savedBudget : b);
         }
         return [...prev, savedBudget];
       });
@@ -266,7 +266,7 @@ function FinanceTrackerContent() {
 
   const handleToggleActive = async (id: string) => {
     try {
-      const recurring = recurringTransactions.find(r => r.id.toString() === id);
+      const recurring = recurringTransactions.find((r) => r.id.toString() === id);
       if (!recurring) return;
 
       const response = await fetch(`/api/recurring?id=${id}`, {
@@ -283,7 +283,7 @@ function FinanceTrackerContent() {
 
       const updated = await response.json();
       setRecurringTransactions((prev) =>
-        prev.map((r) => (r.id.toString() === id ? updated : r))
+      prev.map((r) => r.id.toString() === id ? updated : r)
       );
       toast.success(`Recurring transaction ${updated.isActive ? 'activated' : 'deactivated'}`);
     } catch (error) {
@@ -296,8 +296,8 @@ function FinanceTrackerContent() {
     return (
       <div className="min-h-screen bg-background metallic-dark-bg flex items-center justify-center">
         <div className="text-white text-xl">Loading...</div>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
@@ -322,11 +322,11 @@ function FinanceTrackerContent() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-popover border-2 border-white text-white">
-                {Object.values(currencies).map((curr) => (
-                  <SelectItem key={curr.code} value={curr.code} className="cursor-pointer text-white">
+                {Object.values(currencies).map((curr) =>
+                <SelectItem key={curr.code} value={curr.code} className="cursor-pointer text-white">
                     {curr.symbol} {curr.code} - {curr.name}
                   </SelectItem>
-                ))}
+                )}
               </SelectContent>
             </Select>
           </div>
@@ -335,37 +335,37 @@ function FinanceTrackerContent() {
         {/* Main Content */}
         <Tabs defaultValue="dashboard" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid platinum-luxury border-2 border-white/40 p-1">
-            <TabsTrigger 
+            <TabsTrigger
               value="dashboard"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all"
-            >
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all !w-[24.9%] !h-[33px]">
+
               Dashboard
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="add"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all"
-            >
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all">
+
               Add Transaction
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="budgets"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all"
-            >
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all">
+
               Budgets
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="recurring"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all"
-            >
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all">
+
               Recurring
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="space-y-6">
-            <FinanceDashboard 
-              transactions={transactions} 
-              onDeleteTransaction={handleDeleteTransaction}
-            />
+            <FinanceDashboard
+              transactions={transactions}
+              onDeleteTransaction={handleDeleteTransaction} />
+
           </TabsContent>
 
           <TabsContent value="budgets" className="space-y-6">
@@ -373,8 +373,8 @@ function FinanceTrackerContent() {
               budgets={budgets}
               transactions={transactions}
               onAddBudget={handleAddBudget}
-              onDeleteBudget={handleDeleteBudget}
-            />
+              onDeleteBudget={handleDeleteBudget} />
+
           </TabsContent>
 
           <TabsContent value="recurring" className="space-y-6">
@@ -387,8 +387,8 @@ function FinanceTrackerContent() {
                 <RecurringTransactionManager
                   recurringTransactions={recurringTransactions}
                   onDeleteRecurring={handleDeleteRecurring}
-                  onToggleActive={handleToggleActive}
-                />
+                  onToggleActive={handleToggleActive} />
+
               </div>
             </div>
           </TabsContent>
@@ -401,14 +401,14 @@ function FinanceTrackerContent() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
 export function FinanceTracker() {
   return (
     <CurrencyProvider>
       <FinanceTrackerContent />
-    </CurrencyProvider>
-  );
+    </CurrencyProvider>);
+
 }
