@@ -15,58 +15,223 @@ import { CurrencyProvider, useCurrency } from '@/contexts/CurrencyContext';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { currencies, CurrencyCode } from '@/types/currency';
 import { DollarSign } from 'lucide-react';
+import { toast } from 'sonner';
 
 function FinanceTrackerContent() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [budgets, setBudgets] = useState<Budget[]>([]);
   const [recurringTransactions, setRecurringTransactions] = useState<RecurringTransaction[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { currency, setCurrency } = useCurrency();
 
-  const handleAddTransaction = (data: Omit<Transaction, 'id'>) => {
-    const newTransaction: Transaction = {
-      ...data,
-      id: Date.now().toString()
-    };
-    setTransactions((prev) => [...prev, newTransaction]);
-  };
+  // Fetch all data on mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        
+        // Fetch transactions
+        const transactionsRes = await fetch('/api/transactions');
+        if (transactionsRes.ok) {
+          const transactionsData = await transactionsRes.json();
+          setTransactions(transactionsData);
+        }
 
-  const handleDeleteTransaction = (id: string) => {
-    setTransactions((prev) => prev.filter((t) => t.id !== id));
-  };
+        // Fetch budgets
+        const budgetsRes = await fetch('/api/budgets');
+        if (budgetsRes.ok) {
+          const budgetsData = await budgetsRes.json();
+          setBudgets(budgetsData);
+        }
 
-  const handleAddBudget = (budget: Budget) => {
-    setBudgets((prev) => {
-      const existing = prev.find((b) => b.category === budget.category);
-      if (existing) {
-        return prev.map((b) => (b.category === budget.category ? budget : b));
+        // Fetch recurring transactions
+        const recurringRes = await fetch('/api/recurring');
+        if (recurringRes.ok) {
+          const recurringData = await recurringRes.json();
+          setRecurringTransactions(recurringData);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        toast.error('Failed to load data');
+      } finally {
+        setIsLoading(false);
       }
-      return [...prev, budget];
-    });
-  };
-
-  const handleDeleteBudget = (category: string) => {
-    setBudgets((prev) => prev.filter((b) => b.category !== category));
-  };
-
-  const handleAddRecurring = (data: Omit<RecurringTransaction, 'id' | 'lastGenerated'>) => {
-    const newRecurring: RecurringTransaction = {
-      ...data,
-      id: Date.now().toString(),
-      lastGenerated: undefined
     };
-    setRecurringTransactions((prev) => [...prev, newRecurring]);
+
+    fetchData();
+  }, []);
+
+  const handleAddTransaction = async (data: Omit<Transaction, 'id'>) => {
+    try {
+      const response = await fetch('/api/transactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        toast.error(error.error || 'Failed to add transaction');
+        return;
+      }
+
+      const newTransaction = await response.json();
+      setTransactions((prev) => [...prev, newTransaction]);
+      toast.success('Transaction added successfully');
+    } catch (error) {
+      console.error('Error adding transaction:', error);
+      toast.error('Failed to add transaction');
+    }
   };
 
-  const handleDeleteRecurring = (id: string) => {
-    setRecurringTransactions((prev) => prev.filter((r) => r.id !== id));
-    setTransactions((prev) => prev.filter((t) => t.recurringId !== id));
+  const handleDeleteTransaction = async (id: string) => {
+    try {
+      const response = await fetch(`/api/transactions?id=${id}`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        toast.error(error.error || 'Failed to delete transaction');
+        return;
+      }
+
+      setTransactions((prev) => prev.filter((t) => t.id.toString() !== id));
+      toast.success('Transaction deleted successfully');
+    } catch (error) {
+      console.error('Error deleting transaction:', error);
+      toast.error('Failed to delete transaction');
+    }
   };
 
-  const handleToggleActive = (id: string) => {
-    setRecurringTransactions((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, isActive: !r.isActive } : r))
+  const handleAddBudget = async (budget: Budget) => {
+    try {
+      const response = await fetch('/api/budgets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(budget)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        toast.error(error.error || 'Failed to save budget');
+        return;
+      }
+
+      const savedBudget = await response.json();
+      setBudgets((prev) => {
+        const existing = prev.find((b) => b.category === savedBudget.category);
+        if (existing) {
+          return prev.map((b) => (b.category === savedBudget.category ? savedBudget : b));
+        }
+        return [...prev, savedBudget];
+      });
+      toast.success('Budget saved successfully');
+    } catch (error) {
+      console.error('Error saving budget:', error);
+      toast.error('Failed to save budget');
+    }
+  };
+
+  const handleDeleteBudget = async (category: string) => {
+    try {
+      const response = await fetch(`/api/budgets?category=${encodeURIComponent(category)}`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        toast.error(error.error || 'Failed to delete budget');
+        return;
+      }
+
+      setBudgets((prev) => prev.filter((b) => b.category !== category));
+      toast.success('Budget deleted successfully');
+    } catch (error) {
+      console.error('Error deleting budget:', error);
+      toast.error('Failed to delete budget');
+    }
+  };
+
+  const handleAddRecurring = async (data: Omit<RecurringTransaction, 'id' | 'lastGenerated'>) => {
+    try {
+      const response = await fetch('/api/recurring', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        toast.error(error.error || 'Failed to add recurring transaction');
+        return;
+      }
+
+      const newRecurring = await response.json();
+      setRecurringTransactions((prev) => [...prev, newRecurring]);
+      toast.success('Recurring transaction added successfully');
+    } catch (error) {
+      console.error('Error adding recurring transaction:', error);
+      toast.error('Failed to add recurring transaction');
+    }
+  };
+
+  const handleDeleteRecurring = async (id: string) => {
+    try {
+      const response = await fetch(`/api/recurring?id=${id}`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        toast.error(error.error || 'Failed to delete recurring transaction');
+        return;
+      }
+
+      setRecurringTransactions((prev) => prev.filter((r) => r.id.toString() !== id));
+      setTransactions((prev) => prev.filter((t) => t.recurringId?.toString() !== id));
+      toast.success('Recurring transaction deleted successfully');
+    } catch (error) {
+      console.error('Error deleting recurring transaction:', error);
+      toast.error('Failed to delete recurring transaction');
+    }
+  };
+
+  const handleToggleActive = async (id: string) => {
+    try {
+      const recurring = recurringTransactions.find(r => r.id.toString() === id);
+      if (!recurring) return;
+
+      const response = await fetch(`/api/recurring?id=${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isActive: !recurring.isActive })
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        toast.error(error.error || 'Failed to toggle status');
+        return;
+      }
+
+      const updated = await response.json();
+      setRecurringTransactions((prev) =>
+        prev.map((r) => (r.id.toString() === id ? updated : r))
+      );
+      toast.success(`Recurring transaction ${updated.isActive ? 'activated' : 'deactivated'}`);
+    } catch (error) {
+      console.error('Error toggling recurring transaction:', error);
+      toast.error('Failed to toggle status');
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background metallic-dark-bg flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
     );
-  };
+  }
 
   return (
     <div className="min-h-screen bg-background metallic-dark-bg">
@@ -105,25 +270,25 @@ function FinanceTrackerContent() {
           <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid platinum-luxury border-2 border-white/40 p-1">
             <TabsTrigger 
               value="dashboard"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold transition-all"
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-black transition-all"
             >
               Dashboard
             </TabsTrigger>
             <TabsTrigger 
               value="add"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold transition-all"
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-black transition-all"
             >
               Add Transaction
             </TabsTrigger>
             <TabsTrigger 
               value="budgets"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold transition-all"
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-black transition-all"
             >
               Budgets
             </TabsTrigger>
             <TabsTrigger 
               value="recurring"
-              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold transition-all"
+              className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-black transition-all"
             >
               Recurring
             </TabsTrigger>
