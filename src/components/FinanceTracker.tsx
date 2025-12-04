@@ -334,7 +334,7 @@ function FinanceTrackerContent() {
 
         {/* Main Content */}
         <Tabs defaultValue="dashboard" className="space-y-6">
-          <TabsList className="grid grid-cols-4 lg:w-auto lg:inline-grid platinum-luxury border-2 border-white/40 p-1 !w-full !h-10">
+          <TabsList className="grid grid-cols-4 lg:w-auto lg:inline-grid platinum-luxury border-2 border-white/40 p-1 !w-full !h-[41px]">
             <TabsTrigger
               value="dashboard"
               className="text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:font-semibold data-[state=active]:border-2 data-[state=active]:border-white transition-all !w-[24.9%] !h-[30px]">
@@ -394,7 +394,7 @@ function FinanceTrackerContent() {
           </TabsContent>
 
           <TabsContent value="add" className="space-y-6">
-            <Card className="p-6 max-w-2xl mx-auto platinum-luxury">
+            <Card className="p-6 max-w-2xl mx-auto platinum-luxury !border-white">
               <h2 className="text-2xl font-bold mb-6 tracking-tight text-white">Add New Transaction</h2>
               <TransactionForm onAddTransaction={handleAddTransaction} />
             </Card>
